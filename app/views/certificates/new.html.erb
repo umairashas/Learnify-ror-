@@ -1,0 +1,11 @@
+<% content_for :title, "New certificate" %>
+
+<h1>New certificate</h1>
+
+<%= render "form", certificate: @certificate %>
+
+<br>
+
+<div>
+  <%= link_to "Back to certificates", certificates_path %>
+</div>

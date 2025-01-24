@@ -1,0 +1,14 @@
+<h1>Welcome to Our E-Learning Platform</h1>
+<p>Start learning today with our expert-led courses.</p>
+<h1 class="text-3xl font-bold underline">
+  Hello world!
+</h1>
+<% if current_user.role == 'teacher' %>
+	<%= link_to "Add Courses", courses_path, class: "btn btn-primary" %>
+	<%= link_to "Add Quizzes", quizzes_path, class: "btn btn-primary" %>
+
+<% end %>
+
+<% if current_user.role == 'admin'%>
+	<%= link_to "View Students", students_path, class: "btn btn-primary" %>
+<% end %>
