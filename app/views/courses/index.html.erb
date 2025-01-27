@@ -2,6 +2,13 @@
 
 <% content_for :title, "Courses" %>
 
+<% if current_user.role == 'teacher' || current_user.admin? %>
+  <%= link_to "Add Course", new_course_path(teacher_id: current_user.teachers.first&.id), class: "btn btn-primary" %>
+<% else %>
+  <p>You must be a teacher or an admin to add a course.</p>
+<% end %>
+
+
 <h1>Courses</h1>
 
 <div id="courses">
@@ -13,4 +20,4 @@
   <% end %>
 </div>
 
-<%= link_to "Add Course", new_course_path(teacher_id: current_user.teacher.id, student_id: current_user.student.id), class: "btn btn-primary" %>
+

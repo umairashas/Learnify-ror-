@@ -13,10 +13,10 @@ class User < ApplicationRecord
 
   def create_associated_record
     case role
-    when "student"
-      Student.create(user: self)
     when "teacher"
-      Teacher.create(user: self)
+      Teacher.create(user: self)  # Create Teacher with user_id
+    when "student"
+      Student.create(user: self)  # Create Student with user_id
     end
   end
 end

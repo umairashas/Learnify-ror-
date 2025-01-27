@@ -11,6 +11,9 @@
 # It's strongly recommended that you check this file into your version control system.
 
 ActiveRecord::Schema[7.2].define(version: 2025_01_25_143853) do
+  # These are extensions that must be enabled in order to support this database
+  enable_extension "plpgsql"
+
   create_table "active_storage_attachments", force: :cascade do |t|
     t.string "name", null: false
     t.string "record_type", null: false
@@ -40,8 +43,8 @@ ActiveRecord::Schema[7.2].define(version: 2025_01_25_143853) do
   end
 
   create_table "certificates", force: :cascade do |t|
-    t.integer "student_id", null: false
-    t.integer "courses_id", null: false
+    t.bigint "student_id", null: false
+    t.bigint "courses_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["courses_id"], name: "index_certificates_on_courses_id"
@@ -52,19 +55,17 @@ ActiveRecord::Schema[7.2].define(version: 2025_01_25_143853) do
     t.string "title"
     t.text "description"
     t.string "category"
-    t.integer "teacher_id", null: false
-    t.integer "student_id", null: false
+    t.bigint "teacher_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["student_id"], name: "index_courses_on_student_id"
     t.index ["teacher_id"], name: "index_courses_on_teacher_id"
   end
 
   create_table "quizzes", force: :cascade do |t|
     t.string "question"
-    t.integer "student_id", null: false
-    t.integer "teacher_id", null: false
-    t.integer "course_id", null: false
+    t.bigint "student_id", null: false
+    t.bigint "teacher_id", null: false
+    t.bigint "course_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["course_id"], name: "index_quizzes_on_course_id"
@@ -73,14 +74,14 @@ ActiveRecord::Schema[7.2].define(version: 2025_01_25_143853) do
   end
 
   create_table "students", force: :cascade do |t|
-    t.integer "user_id", null: false
+    t.bigint "user_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["user_id"], name: "index_students_on_user_id"
   end
 
   create_table "teachers", force: :cascade do |t|
-    t.integer "user_id", null: false
+    t.bigint "user_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["user_id"], name: "index_teachers_on_user_id"
@@ -105,7 +106,6 @@ ActiveRecord::Schema[7.2].define(version: 2025_01_25_143853) do
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
   add_foreign_key "certificates", "courses", column: "courses_id"
   add_foreign_key "certificates", "students"
-  add_foreign_key "courses", "students"
   add_foreign_key "courses", "teachers"
   add_foreign_key "quizzes", "courses"
   add_foreign_key "quizzes", "students"

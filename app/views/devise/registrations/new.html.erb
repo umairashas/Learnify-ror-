@@ -1,44 +1,136 @@
-<h2>Sign up</h2>
+<div class="signup-container">
+  <h2>Sign up</h2>
 
-<%= form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f| %>
-  <%= render "devise/shared/error_messages", resource: resource %>
-  <div>
-     <%= f.label :name %><br />
-     <%= f.text_field :name, autofocus: true %>
+  <%= form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f| %>
+    <%= render "devise/shared/error_messages", resource: resource %>
+
+    <div class="field">
+      <%= f.label :name %>
+      <%= f.text_field :name, autofocus: true %>
+    </div>
+
+    <div class="field">
+      <%= f.label :email %>
+      <%= f.email_field :email, autofocus: true, autocomplete: "email" %>
+    </div>
+
+    <div class="field">
+      <%= f.label :password %>
+      <% if @minimum_password_length %>
+        <em>(<%= @minimum_password_length %> characters minimum)</em>
+      <% end %>
+      <%= f.password_field :password, autocomplete: "new-password" %>
+    </div>
+
+    <div class="field">
+      <%= f.label :password_confirmation %>
+      <%= f.password_field :password_confirmation, autocomplete: "new-password" %>
+    </div>
+
+    <div class="field">
+      <%= f.label :phone_number %>
+      <%= f.text_field :phone_number, autofocus: true %>
+    </div>
+
+    <div class="field">
+      <%= f.label :role %>
+      <%= f.select :role, User.roles.keys.map { |w| [w.humanize, w] }, prompt: "Select a role" %>
+    </div>
+
+    <div class="actions">
+      <%= f.submit "Sign up" %>
+    </div>
+  <% end %>
+
+  <div class="devise-links">
+    <%= render "devise/shared/links" %>
   </div>
+</div>
 
-  <div class="field">
-    <%= f.label :email %><br />
-    <%= f.email_field :email, autofocus: true, autocomplete: "email" %>
-  </div>
+<style>
+  /* General styles */
+body {
+  font-family: 'Poppins', sans-serif;
+  background: linear-gradient(to right, #667eea, #764ba2);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  
+}
 
-  <div class="field">
-    <%= f.label :password %>
-    <% if @minimum_password_length %>
-    <em>(<%= @minimum_password_length %> characters minimum)</em>
-    <% end %><br />
-    <%= f.password_field :password, autocomplete: "new-password" %>
-  </div>
+/* Sign-up container */
+.signup-container {
+  background: white;
+  padding: 2rem;
+  border-radius: 10px;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+  width: 400px;
+  margin-top: 250px;
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+}
 
-  <div class="field">
-    <%= f.label :password_confirmation %><br />
-    <%= f.password_field :password_confirmation, autocomplete: "new-password" %>
-  </div>
+/* Title */
+h2 {
+  color: #333;
+  margin-bottom: 20px;
+}
 
-  <div>
-     <%= f.label :phone_number %><br />
-     <%= f.text_field :phone_number, autofocus: true %>
-  </div>
+/* Input fields */
+.field {
+  margin-bottom: 15px;
+  text-align: left;
+}
 
-  <div>
-     <%= f.label :role %>
-     <%= f.select :role, User.roles.keys.map { |w| [w.humanize, w] }, prompt: "Select a role" %>
+.field label {
+  display: block;
+  font-weight: 600;
+  margin-bottom: 5px;
+  color: #333;
+}
 
-  </div>
+.field input,
+.field select {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  font-size: 16px;
+}
 
-  <div class="actions">
-    <%= f.submit "Sign up" %>
-  </div>
-<% end %>
+/* Submit button */
+.actions input[type="submit"] {
+  background: #667eea;
+  color: white;
+  border: none;
+  padding: 12px;
+  width: 100%;
+  font-size: 16px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: 0.3s;
+}
 
-<%= render "devise/shared/links" %>
+.actions input[type="submit"]:hover {
+  background: #5645b5;
+}
+
+/* Devise links */
+.devise-links {
+  margin-top: 15px;
+}
+
+.devise-links a {
+  text-decoration: none;
+  color: #667eea;
+  font-weight: bold;
+  transition: 0.3s;
+}
+
+.devise-links a:hover {
+  color: #5645b5;
+}
+
+</style>

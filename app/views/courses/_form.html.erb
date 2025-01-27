@@ -1,6 +1,7 @@
 <%= form_with(model: course, local: true) do |form| %>
-<%= form.hidden_field :student_id, value: current_user.students.ids %> 
-<%= form.hidden_field :teacher_id, value: current_user.teachers.ids %> 
+<%#= form.hidden_field :teacher_id, value: current_user.teacher %>
+<%= form.hidden_field :teacher_id, value: current_user.teachers.first&.id %>
+
   <% if course.errors.any? %>
     <div style="color: red">
       <h2><%= pluralize(course.errors.count, "error") %> prohibited this course from being saved:</h2>

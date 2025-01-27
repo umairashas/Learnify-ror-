@@ -21,22 +21,19 @@ class CoursesController < ApplicationController
 
   # POST /courses or /courses.json
   def create
-    
-    debugger
-     @student = current_user.students.ids
-  @teacher = current_user.teachers.ids
-
-  @course = Course.new(course_params.merge(student_id: @student, teacher_id: @teacher))
-
-    respond_to do |format|
-      if @course.save
-        format.html { redirect_to courses_path, notice: "Course was successfully created." }
-        format.json { render :show, status: :created, location: @course }
-      else
-        format.html { render :new, status: :unprocessable_entity }
-        format.json { render json: @course.errors, status: :unprocessable_entity }
-      end
+   
+    if current_user.role == 'teacher'
+        @teacher = current_user.teachers.first # or choose an appropriate teacher
+        @course = Course.new(course_params.merge(teacher_id: @teacher.id)) 
+          if @course.save
+            redirect_to courses_path, notice: "Course was successfully created." 
+             return
+          else
+           render :new, status: :unprocessable_entity 
+          end
     end
+   
+    
   end
 
   # PATCH/PUT /courses/1 or /courses/1.json
@@ -70,6 +67,8 @@ class CoursesController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def course_params
-      params.require(:course).permit(:title, :description, :category, :video, :student_id, :teacher_id)
+      params.require(:course).permit(:title, :description, :category, :video, :teacher_id)
     end
-end
+
+   
+  end
