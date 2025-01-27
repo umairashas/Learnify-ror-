@@ -5,24 +5,13 @@ class Ability
 
   def initialize(user)
     # Define abilities for the user here. For example:
-    =begin
-      return unless user.present?
-      can :read, :all
-      return unless user.admin?
-      can :manage, :all
-      return unless user.teacher?
-      can :manage, (:course,:quizzess)
-    =end
-
-    user ||= User.new  # guest user (not logged in)
-    case user.role
-    when 'admin'
-      can :manage, :all  # Admin can manage everything
-    when 'teacher'
-      can :manage, Course  # Teacher can manage Course
-    when 'student'
-      can :read, Course  # Student can only read Course
-    end
+      if  user.student?
+       can :read, :all
+      elsif user.admin?
+       can :manage, :all
+      else user.teacher?
+      can :manage, ([Course, Quiz, Student])
+      end
   end
     #
     # The first argument to `can` is the action you are giving the user
@@ -42,5 +31,5 @@ class Ability
     #
     # See the wiki for details:
     # https://github.com/CanCanCommunity/cancancan/blob/develop/docs/define_check_abilities.md
-  end
+  
 end
