@@ -1,5 +1,5 @@
 <% content_for :title, "New course" %>
-
+<div class=container>
 <h1>New course</h1>
 
 
@@ -10,3 +10,12 @@
 <div>
   <%= link_to "Back to courses", courses_path %>
 </div>
+</div>
+<style>
+  .container{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    align-content: center;
+  }
+</style>

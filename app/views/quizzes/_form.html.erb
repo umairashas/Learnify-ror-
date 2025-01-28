@@ -1,17 +1,25 @@
 <%= form_with(model: quiz) do |form| %>
+  <%= form.hidden_field :student_id, value: @student_id %> 
+  <%= form.hidden_field :teacher_id, value: @teacher_id %> 
+  <%= form.hidden_field :course_id, value: @course_id %> 
+
   <% if quiz.errors.any? %>
     <div style="color: red">
       <h2><%= pluralize(quiz.errors.count, "error") %> prohibited this quiz from being saved:</h2>
-
       <ul>
-        <% quiz.errors.each do |error| %>
-          <li><%= error.full_message %></li>
+        <% quiz.errors.full_messages.each do |error| %>
+          <li><%= error %></li>
         <% end %>
       </ul>
     </div>
   <% end %>
 
+  <div class="field">
+    <%= form.label :question, "Question" %>
+    <%= form.text_area :question, rows: 3 %> <!-- Use text_area for multi-line questions -->
+  </div>
+
   <div>
-    <%= form.submit %>
+    <%= form.submit "Create Quiz" %>
   </div>
 <% end %>

@@ -1,19 +1,116 @@
 <p style="color: green"><%= notice %></p>
-<div> 
-<h1><%= @course.title%></h1>
-<p><%= @course.description%></p>
-</div>
-<%= render @course %>
-<% if @course.video.attached? %>
-  <video width="400" controls>
-    <source src="<%= url_for(@course.video) %>" type="video/mp4">
-    Your browser does not support the video tag.
-  </video>
-<% end %>
 
-<div>
-  <%= link_to "Edit this course", edit_course_path(@course) %> |
-  <%= link_to "Back to courses", courses_path %>
+<div class="course-details">
+  <h1 class="course-title"><%= @course.title %></h1>
+  <p class="course-description"><%= @course.description %></p>
 
-  <%= button_to "Destroy this course", @course, method: :delete %>
+  <% if @course.video.attached? %>
+    <div class="video-container">
+      <video width="800" controls>
+        <source src="<%= url_for(@course.video) %>" type="video/mp4">
+        Your browser does not support the video tag.
+      </video>
+    </div>
+  <% end %>
+
+  <div class="course-actions">
+    <%= link_to "Edit this course", edit_course_path(@course), class: "btn btn-edit" %> |
+    <%= link_to "Back to courses", courses_path, class: "btn btn-back" %>|
+                                                                         
+    <%= button_to "Destroy this course", @course, method: :delete, class: "btn btn-danger" %>
+  </div>
 </div>
+<style>
+  /* Course Details */
+.course-details {
+  background: #f9f9f9;
+  padding: 2rem;
+  border-radius: 8px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  max-width: 1000px;
+  margin: 20px auto;
+}
+
+/* Course Title */
+.course-title {
+  font-size: 28px;
+  font-weight: bold;
+  color: #333;
+  margin-bottom: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Course Description */
+.course-description {
+  font-size: 16px;
+  color: #666;
+  margin-bottom: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Video Container */
+.video-container {
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+/* Course Actions */
+.course-actions {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  text-align: center;
+  margin-top: 20px;
+}
+
+/* Buttons */
+.btn {
+  background-color: #667eea;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  font-size: 16px;
+  border-radius: 5px;
+  cursor: pointer;
+  text-decoration: none;
+  transition: background-color 0.3s ease;
+  margin: 5px;
+}
+
+.btn:hover {
+  background-color: #5645b5;
+}
+
+/* Edit Button */
+.btn-edit {
+  background-color: #4CAF50;
+}
+
+.btn-edit:hover {
+  background-color: #45a049;
+}
+
+/* Back Button */
+.btn-back {
+  background-color: #008CBA;
+}
+
+.btn-back:hover {
+  background-color: #007bb5;
+}
+
+/* Destroy Button */
+.btn-danger {
+  background-color: #f44336;
+}
+
+.btn-danger:hover {
+  background-color: #d32f2f;
+}
+
+</style>

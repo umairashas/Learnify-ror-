@@ -1,0 +1,149 @@
+<% if user_signed_in? %>
+  <div class="dashboard">
+    <h2>Explore Learning</h2>
+    <div class="btn-group">
+      <% if current_user.role == 'teacher' || current_user.admin? %>
+      <div class="button">
+        <%= link_to "Add Course", new_course_path(teacher_id: current_user.id), class: 'btn btn-primary' %>
+        <%= link_to "Add Quiz", new_quiz_path(student_id: @student, teacher_id: @teacher, course_id: @course), class: 'btn btn-secondary' %>
+      <% end %>
+      <%= link_to "View All Courses", courses_path, class: 'btn btn-primary' %>
+      <%= link_to "View All Quizzes", quizzes_path, class: 'btn btn-secondary' %>
+    </div>
+    </div>
+  </div>
+<% else %>
+  <div class="landing-page">
+    <div class="hero">
+      <h1>Welcome to the Learning Platform</h1>
+      <p>Join now to explore exciting courses and quizzes!</p>
+    </div>
+  </div>
+<% end %>
+
+<style>
+  body {
+    font-family: 'Arial', sans-serif;
+    color: white;
+  }
+
+  .hero {
+    text-align: center;
+    padding: 100px 20px;
+    background: linear-gradient(975deg, #6a11cb, #2575fc);
+    border-radius: 12px;
+    margin: 50px auto;
+    margin-top: 100px;
+    width: 100%;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+  }
+
+  .hero h1 {
+    font-size: 2.8em;
+    margin-bottom: 15px;
+    font-weight: bold;
+  }
+
+  .hero p {
+    font-size: 1.2em;
+    margin-bottom: 25px;
+  }
+
+  .auth-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    flex-wrap: wrap;
+  }
+
+  /* Dashboard Section */
+  .dashboard {
+    text-align: center;
+    padding: 50px;
+    background: linear-gradient(975deg, #6a11cb, #2575fc);
+    border-radius: 12px;
+    margin: 40px auto;
+    max-width: 900px;
+    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.15);
+  }
+
+  .dashboard h2 {
+    font-size: 2.5em;
+    margin-bottom: 20px;
+    color: #333;
+  }
+
+  .btn-group {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    flex-wrap: wrap;
+  }
+
+  /* Button Styling */
+  .btn {
+    display: inline-block;
+    padding: 12px 20px;
+    border-radius: 6px;
+    text-decoration: none;
+    font-weight: bold;
+    transition: all 0.3s ease-in-out;
+    font-size: 16px;
+    text-align: center;
+  }
+
+  .btn-primary {
+    background-color: #2575fc;
+    color: white;
+    border: 2px solid transparent;
+  }
+
+  .btn-primary:hover {
+    background-color: white;
+    color: #2575fc;
+    border-color: #2575fc;
+  }
+
+  .btn-secondary {
+    background-color: #f8d210;
+    color: black;
+    border: 2px solid transparent;
+  }
+
+  .btn-secondary:hover {
+    background-color: black;
+    color: #f8d210;
+    border-color: #f8d210;
+  }
+
+  /* Responsive Design */
+  @media (max-width: 768px) {
+    .hero {
+      padding: 70px 20px;
+    }
+
+    .hero h1 {
+      font-size: 2.2em;
+    }
+
+    .btn-group {
+      flex-direction: column;
+      align-items: center;
+    }
+  }
+
+  .button {
+    display: flex;
+    flex-direction: row;
+    gap: 20px;
+    color: black;
+    justify-content: center;
+  }
+
+  /* Button alignment in Dashboard */
+  .btn-group {
+    flex-direction: row;
+    gap: 20px;
+    align-items: center;
+  }
+</style>

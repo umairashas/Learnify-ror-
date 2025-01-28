@@ -13,4 +13,4 @@
   <% end %>
 </div>
 
-<%= link_to "New quiz", new_quiz_path %>
+<%= link_to "New quiz", new_quiz_path(student_id: @student.id, teacher_id: @teacher.id, course_id: @course.id), class: "btn btn-primary"  %>

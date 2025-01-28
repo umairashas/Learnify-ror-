@@ -3,7 +3,14 @@ class CoursesController < ApplicationController
 
   # GET /courses or /courses.json
   def index
-    @courses = Course.all
+    if current_user.role == 'teacher'
+    @teacher = current_user.teacher # Get the teacher associated with the current user
+    @courses = @teacher.courses # Fetch courses added by the teacher
+  elsif current_user.admin?
+    @courses = Course.all # Admins can see all courses
+  else
+    redirect_to root_path, alert: "You are not authorized to view this page."
+  end
   end
 
   # GET /courses/1 or /courses/1.json
@@ -22,16 +29,17 @@ class CoursesController < ApplicationController
   # POST /courses or /courses.json
   def create
    
-    if current_user.role == 'teacher'
-        @teacher = current_user.teachers.first # or choose an appropriate teacher
-        @course = Course.new(course_params.merge(teacher_id: @teacher.id)) 
-          if @course.save
-            redirect_to courses_path, notice: "Course was successfully created." 
-             return
-          else
-           render :new, status: :unprocessable_entity 
-          end
+      if current_user.role == 'teacher'
+    @teacher = current_user.teacher # Get the teacher associated with the current user
+    @course = Course.new(course_params.merge(teacher_id: @teacher.id)) 
+    if @course.save
+      redirect_to courses_path, notice: "Course was successfully created." 
+    else
+      render :new, status: :unprocessable_entity 
     end
+  else
+    redirect_to root_path, alert: "You are not authorized to create a course."
+  end
    
     
   end

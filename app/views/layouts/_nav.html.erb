@@ -1,0 +1,156 @@
+<nav class="navbar">
+  <div class="container">
+    <!-- Brand Name / Logo -->
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbarNav">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="/">Learnify</a>
+    </div>
+
+    <!-- Navbar Links -->
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="nav navbar-nav navbar-right">
+        <li><%= link_to "Home", root_path, class: "nav-link" %></li>
+        <li><%= link_to "About", about_path, class: "nav-link" %></li>
+        <li><%= link_to "Contact", contact_path, class: "nav-link" %></li>
+
+        <% if user_signed_in? %>
+          <li><%= link_to "Profile", edit_user_registration_path, class: "nav-link" %></li>
+          <li><%= button_to "Logout", destroy_user_session_path, method: :delete, class: "nav-link logout-link" %></li>
+        <% else %>
+          <li><%= link_to "Sign In", new_user_session_path, class: "btn btn-outline-light navbar-btn" %></li>
+          <li><%= link_to "Sign Up", new_user_registration_path, class: "btn btn-primary navbar-btn" %></li>
+        <% end %>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<style>
+
+  body{
+    margin-top: 70px;
+  }
+
+  .navbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+    background: linear-gradient(135deg, #6a11cb, #2575fc);
+  padding: 10px 20px;
+  z-index: 1000; 
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); 
+}
+
+.navbar .container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.navbar-header {
+  display: flex;
+  align-items: center;
+}
+
+.navbar-brand {
+  color: white;
+  font-size: 4.5rem;
+  font-weight: bold;
+  text-decoration: none;
+  margin-right: 20px;
+}
+
+.navbar-toggle {
+  display: none;
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+.navbar-toggle .icon-bar {
+  display: block;
+  width: 25px;
+  height: 3px;
+  background-color: white;
+  margin: 5px 0;
+}
+
+.navbar-nav {
+  list-style: none;
+  display: flex;
+  gap: 15px;
+  margin: 0;
+  padding: 0;
+}
+
+.navbar-nav .nav-link {
+  color: white;
+  font-size: 2rem;
+  text-decoration: none;
+  padding: 10px 15px;
+  border-radius: 5px;
+  transition: background 0.3s;
+}
+
+.navbar-nav .nav-link:hover {
+  background-color: rgba(255, 255, 255, 0.2);
+}
+
+.navbar-nav .logout-link {
+  color: #ff6b6b; /* Red color for logout */
+}
+
+.navbar-nav .btn {
+  padding: 8px 15px;
+  border-radius: 5px;
+  font-weight: bold;
+}
+
+.navbar-nav .btn-outline-light {
+  border: 2px solid white;
+  color: white;
+}
+
+.navbar-nav .btn-primary {
+  background-color: #007bff;
+  border: none;
+  color: white;
+}
+
+.navbar-nav .btn-primary:hover {
+  background-color: #0056b3;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .navbar-toggle {
+    display: block;
+  }
+
+  .navbar-nav {
+    display: none;
+    flex-direction: column;
+    width: 100%;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    background-color: #343a40;
+    padding: 10px 0;
+  }
+
+  .navbar-nav.active {
+    display: flex;
+  }
+
+  .navbar-nav .nav-link {
+    text-align: center;
+    display: block;
+  }
+}
+
+</style>

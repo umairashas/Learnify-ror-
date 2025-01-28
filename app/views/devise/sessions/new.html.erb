@@ -1,43 +1,93 @@
-<div class="login-container">
-  <h2>Log in</h2>
-
-  <%= form_for(resource, as: resource_name, url: session_path(resource_name)) do |f| %>
-    <div class="field">
-      <%= f.label :email %>
-      <%= f.email_field :email, autofocus: true, autocomplete: "email" %>
+<% if user_signed_in? %>
+  <div class="dashboard">
+    <h2>Welcome, <%= current_user.email %> 🎉</h2>
+    <div class="btn-group">
+      <% if current_user.role == 'teacher' || current_user.admin? %>
+        <%= link_to "Add Course", new_course_path(teacher_id: current_user.id), class: "btn btn-primary" %>
+        <%= link_to "Add Quiz", new_quiz_path(student_id: @student, teacher_id: @teacher, course_id: @course), class: "btn btn-primary" %>
+      <% end %>
+      <%= link_to "View All Courses", courses_path, class: "btn btn-secondary" %>
+      <%= link_to "View All Quizzes", quizzes_path, class: "btn btn-secondary" %>
     </div>
-
-    <div class="field">
-      <%= f.label :password %>
-      <%= f.password_field :password, autocomplete: "current-password" %>
-    </div>
-
-    <% if devise_mapping.rememberable? %>
-      <div class="field">
-        <%= f.check_box :remember_me %>
-        <%= f.label :remember_me %>
-      </div>
-    <% end %>
-
-    <div class="actions">
-      <%= f.submit "Log in" %>
-    </div>
-  <% end %>
-
-  <div class="devise-links">
-    <%= render "devise/shared/links" %>
   </div>
-</div>
+<% else %>
+  <div class="home-container">
+  
+
+    <div class="login-container">
+      <h2>Log in</h2>
+      <%= form_for(resource, as: resource_name, url: session_path(resource_name)) do |f| %>
+        <div class="field">
+          <%= f.label :email %>
+          <%= f.email_field :email, autofocus: true, autocomplete: "email" %>
+        </div>
+
+        <div class="field">
+          <%= f.label :password %>
+          <%= f.password_field :password, autocomplete: "current-password" %>
+        </div>
+
+        <% if devise_mapping.rememberable? %>
+          <div class="field">
+            <%= f.check_box :remember_me %>
+            <%= f.label :remember_me %>
+          </div>
+        <% end %>
+
+        <div class="actions">
+          <%= f.submit "Log in" %>
+        </div>
+      <% end %>
+
+      <div class="devise-links">
+        <%= render "devise/shared/links" %>
+      </div>
+    </div>
+  </div>
+<% end %>
+
 <style>
-  /* General styles */
+  *{
+    overflow: hidden;
+  }
+/* General styles */
 body {
   font-family: 'Poppins', sans-serif;
   background: linear-gradient(to right, #667eea, #764ba2);
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 100vh;
-  margin: 0;
+  min-height: 100vh;
+  margin-top: 50px;
+}
+
+/* Home Container */
+.home-container {
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 30px;
+  padding: 40px;
+}
+
+/* Hero Section */
+.hero {
+  background: linear-gradient(135deg, #6a11cb, #2575fc);
+  color: white;
+  padding: 50px;
+  border-radius: 12px;
+  max-width: 800px;
+  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.15);
+}
+
+.hero h1 {
+  font-size: 2.5em;
+  margin-bottom: 10px;
+}
+
+.hero p {
+  font-size: 1.2em;
 }
 
 /* Login container */
@@ -48,12 +98,6 @@ body {
   box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
   width: 350px;
   text-align: center;
-}
-
-/* Title */
-h2 {
-  color: #333;
-  margin-bottom: 20px;
 }
 
 /* Input fields */
@@ -75,11 +119,6 @@ h2 {
   border: 1px solid #ddd;
   border-radius: 5px;
   font-size: 16px;
-}
-
-/* Remember me checkbox */
-.field input[type="checkbox"] {
-  width: auto;
 }
 
 /* Submit button */
@@ -113,6 +152,21 @@ h2 {
 
 .devise-links a:hover {
   color: #5645b5;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .home-container {
+    padding: 20px;
+  }
+
+  .hero {
+    padding: 30px;
+  }
+
+  .login-container {
+    width: 90%;
+  }
 }
 
 </style>

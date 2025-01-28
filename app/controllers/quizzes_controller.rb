@@ -21,8 +21,12 @@ class QuizzesController < ApplicationController
 
   # POST /quizzes or /quizzes.json
   def create
+    
+    @student = Student.find(params[:student_id])
+    @teacher = Teacher.find(params[:teacher_id])
+    @course = Course.find(params[:course_id])
     @quiz = Quiz.new(quiz_params)
-
+    
     respond_to do |format|
       if @quiz.save
         format.html { redirect_to @quiz, notice: "Quiz was successfully created." }
@@ -65,6 +69,6 @@ class QuizzesController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def quiz_params
-      params.fetch(:quiz, {})
+      params.require(quiz).permit(:question, :student_id, :teacher_id, :course_id)
     end
 end
