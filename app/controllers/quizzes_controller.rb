@@ -3,7 +3,12 @@ class QuizzesController < ApplicationController
 
   # GET /quizzes or /quizzes.json
   def index
-    @quizzes = Quiz.all
+      if current_user.role == 'teacher'
+    @teacher = current_user.teacher
+    @quizzes = Quiz.where(teacher: @teacher) # Show only quizzes created by the current teacher
+  else
+    @quizzes = Quiz.all # Admins or other roles can see all quizzes
+  end 
   end
 
   # GET /quizzes/1 or /quizzes/1.json
@@ -12,7 +17,8 @@ class QuizzesController < ApplicationController
 
   # GET /quizzes/new
   def new
-    @quiz = Quiz.new
+  @teacher = current_user.teacher
+  @quiz = Quiz.new(course: @course, teacher: @teacher)
   end
 
   # GET /quizzes/1/edit
@@ -21,12 +27,14 @@ class QuizzesController < ApplicationController
 
   # POST /quizzes or /quizzes.json
   def create
-    
-    @student = Student.find(params[:student_id])
-    @teacher = Teacher.find(params[:teacher_id])
-    @course = Course.find(params[:course_id])
+    if current_user.role == 'teacher'
+    @teacher = current_user.teacher 
+    @course = @teacher.courses.find(params[:quiz][:course_id]) 
+    end
     @quiz = Quiz.new(quiz_params)
-    
+    @quiz = @course.quizzes.build(quiz_params) # Associate quiz with the course
+    @quiz.teacher = @teacher
+    @quiz.course = @course 
     respond_to do |format|
       if @quiz.save
         format.html { redirect_to @quiz, notice: "Quiz was successfully created." }
@@ -67,8 +75,10 @@ class QuizzesController < ApplicationController
       @quiz = Quiz.find(params[:id])
     end
 
+   
+
     # Only allow a list of trusted parameters through.
     def quiz_params
-      params.require(quiz).permit(:question, :student_id, :teacher_id, :course_id)
+      params.require(:quiz).permit(:question, :option_a, :option_b, :option_c, :option_d, :answer, :teacher_id, :course_id)
     end
 end

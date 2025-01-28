@@ -5,7 +5,6 @@
       <% if current_user.role == 'teacher' || current_user.admin? %>
       <div class="button">
         <%= link_to "Add Course", new_course_path(teacher_id: current_user.id), class: 'btn btn-primary' %>
-        <%= link_to "Add Quiz", new_quiz_path(student_id: @student, teacher_id: @teacher, course_id: @course), class: 'btn btn-secondary' %>
       <% end %>
       <%= link_to "View All Courses", courses_path, class: 'btn btn-primary' %>
       <%= link_to "View All Quizzes", quizzes_path, class: 'btn btn-secondary' %>

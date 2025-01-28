@@ -1,7 +1,8 @@
 class Course < ApplicationRecord
 	has_one_attached :video
 	validate :video_size
-  has_many :quizzes, dependent: :destroy
+  belongs_to :teacher
+  has_one :quiz, dependent: :destroy
   has_many :certificates, dependent: :destroy
   private
 

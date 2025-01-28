@@ -29,7 +29,7 @@ class CoursesController < ApplicationController
   # POST /courses or /courses.json
   def create
    
-      if current_user.role == 'teacher'
+    if current_user.role == 'teacher'
     @teacher = current_user.teacher # Get the teacher associated with the current user
     @course = Course.new(course_params.merge(teacher_id: @teacher.id)) 
     if @course.save

@@ -1,7 +1,8 @@
 <%= form_with(model: quiz) do |form| %>
-  <%= form.hidden_field :student_id, value: @student_id %> 
-  <%= form.hidden_field :teacher_id, value: @teacher_id %> 
-  <%= form.hidden_field :course_id, value: @course_id %> 
+<% if @teacher.present? && @course.present? %>
+  <%= form.hidden_field :teacher_id, value: @teacher.id %>
+  <%= form.hidden_field :course_id, value: params[@course.id] %>
+ <% end %>
 
   <% if quiz.errors.any? %>
     <div style="color: red">
@@ -16,7 +17,32 @@
 
   <div class="field">
     <%= form.label :question, "Question" %>
-    <%= form.text_area :question, rows: 3 %> <!-- Use text_area for multi-line questions -->
+    <%= form.text_area :question, rows: 3 %>
+  </div>
+
+  <div class="field">
+    <%= form.label :option_a, "Option A" %>
+    <%= form.text_field :option_a %>
+  </div>
+
+  <div class="field">
+    <%= form.label :option_b, "Option B" %>
+    <%= form.text_field :option_b %>
+  </div>
+
+  <div class="field">
+    <%= form.label :option_c, "Option C" %>
+    <%= form.text_field :option_c %>
+  </div>
+
+  <div class="field">
+    <%= form.label :option_d, "Option D" %>
+    <%= form.text_field :option_d %>
+  </div>
+
+  <div class="field">
+    <%= form.label :answer, "Correct Answer" %>
+    <%= form.select :answer, options_for_select([["Option A", "A"], ["Option B", "B"], ["Option C", "C"], ["Option D", "D"]]) %>
   </div>
 
   <div>

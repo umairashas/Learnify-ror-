@@ -14,6 +14,7 @@
   <% end %>
 
   <div class="course-actions">
+    <%= link_to "Add Quiz for this course", new_quiz_path(teacher_id: @teacher, course_id: @course.id), class: "btn btn-quiz" %> |
     <%= link_to "Edit this course", edit_course_path(@course), class: "btn btn-edit" %> |
     <%= link_to "Back to courses", courses_path, class: "btn btn-back" %>|
                                                                          
