@@ -1,7 +1,7 @@
 <%= form_with(model: quiz) do |form| %>
 <% if @teacher.present? && @course.present? %>
   <%= form.hidden_field :teacher_id, value: @teacher.id %>
-  <%= form.hidden_field :course_id, value: params[@course.id] %>
+<%= form.hidden_field :course_id, value: @course.id if @course.present? %>
  <% end %>
 
   <% if quiz.errors.any? %>
@@ -46,6 +46,6 @@
   </div>
 
   <div>
-    <%= form.submit "Create Quiz" %>
+    <%= form.submit "Submit Quiz" %>
   </div>
 <% end %>

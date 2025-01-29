@@ -17,8 +17,17 @@ class QuizzesController < ApplicationController
 
   # GET /quizzes/new
   def new
-  @teacher = current_user.teacher
-  @quiz = Quiz.new(course: @course, teacher: @teacher)
+  if current_user.role == 'teacher'
+    @teacher = current_user.teacher
+    @course = @teacher.courses.find_by(id: params[:course_id]) # Fetch course
+    if @course.nil?
+      redirect_to courses_path, alert: "Course not found. Please select a valid course."
+      return
+    end
+    @quiz = Quiz.new(course: @course) # Assign course
+  else
+    redirect_to root_path, alert: "You are not authorized to create a quiz."
+  end
   end
 
   # GET /quizzes/1/edit
@@ -26,15 +35,22 @@ class QuizzesController < ApplicationController
   end
 
   # POST /quizzes or /quizzes.json
-  def create
-    if current_user.role == 'teacher'
-    @teacher = current_user.teacher 
-    @course = @teacher.courses.find(params[:quiz][:course_id]) 
+ def create
+  if current_user.role == 'teacher'
+    @teacher = current_user.teacher
+    course_id = params[:quiz][:course_id]
+
+    Rails.logger.debug "Received course_id: #{course_id}"
+
+    @course = @teacher.courses.find_by(id: course_id)
+
+    if @course.nil?
+      redirect_to new_quiz_path, alert: "Course not found. Please select a valid course."
+      return
     end
-    @quiz = Quiz.new(quiz_params)
-    @quiz = @course.quizzes.build(quiz_params) # Associate quiz with the course
-    @quiz.teacher = @teacher
-    @quiz.course = @course 
+
+    @quiz = @course.build_quiz(quiz_params)
+
     respond_to do |format|
       if @quiz.save
         format.html { redirect_to @quiz, notice: "Quiz was successfully created." }
@@ -44,7 +60,11 @@ class QuizzesController < ApplicationController
         format.json { render json: @quiz.errors, status: :unprocessable_entity }
       end
     end
+  else
+    redirect_to root_path, alert: "You are not authorized to create a quiz."
   end
+end
+
 
   # PATCH/PUT /quizzes/1 or /quizzes/1.json
   def update

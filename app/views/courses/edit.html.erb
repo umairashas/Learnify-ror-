@@ -1,12 +1,22 @@
+  
 <% content_for :title, "Editing course" %>
-
+<div class=container>
 <h1>Editing course</h1>
+
 
 <%= render "form", course: @course %>
 
 <br>
 
 <div>
-  <%= link_to "Show this course", @course %> |
   <%= link_to "Back to courses", courses_path %>
 </div>
+</div>
+<style>
+  .container{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    align-content: center;
+  }
+</style>

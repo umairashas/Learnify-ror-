@@ -4,13 +4,33 @@
 
 <h1>Quizzes</h1>
 
-<div id="quizzes">
-  <% @quizzes.each do |quiz| %>
-    <%= render quiz %>
-    <p>
-      <%= link_to "Show this quiz", quiz %>
-    </p>
-  <% end %>
-</div>
+<table class="table">
+  <thead>
+    <tr>
+      <th>Sr. No</th>
+      <th>Course Name</th>
+      <th>Quiz Status</th>
+      <th>Actions</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @quizzes.each_with_index do |quiz, index| %>
+      <tr>
+        <td><%= index + 1 %></td>
+        <td><%= quiz.course.title %></td>
+        <td>
+          <% if quiz.present? %>
+            <span style="color: green;">Completed</span>
+          <% else %>
+            <span style="color: red;">Pending</span>
+          <% end %>
+        </td>
+        <td>
+          <%= link_to "Show Quiz", quiz, class: "btn btn-info" %>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
 
-<%= link_to "New quiz", new_quiz_path(teacher_id: @teacher, course_id: @course), class: "btn btn-primary"  %>
+<%= link_to "Back", root_path(teacher_id: @teacher, course_id: @course), class: "btn btn-primary" %>

@@ -1,10 +1,21 @@
-<p style="color: green"><%= notice %></p>
+<h1>Quiz Details</h1>
 
-<%= render @quiz %>
+<p><strong>Question:</strong> <%= @quiz.question %></p>
 
-<div>
-  <%= link_to "Edit this quiz", edit_quiz_path(@quiz) %> |
-  <%= link_to "Back to quizzes", quizzes_path %>
+<h2>Options:</h2>
+<ul>
+  <li><strong>A:</strong> <%= @quiz.option_a %></li>
+  <li><strong>B:</strong> <%= @quiz.option_b %></li>
+  <li><strong>C:</strong> <%= @quiz.option_c %></li>
+  <li><strong>D:</strong> <%= @quiz.option_d %></li>
+</ul>
 
-  <%= button_to "Destroy this quiz", @quiz, method: :delete %>
-</div>
+<p><strong>Correct Answer:</strong> <%= @quiz.answer %></p>
+
+<p><strong>Course:</strong> <%= @quiz.course.title if @quiz.course.present? %></p>
+
+
+<%= link_to "Edit Quiz", edit_quiz_path(@quiz), class: "btn btn-primary" %>
+<%= link_to "Back to Course", course_path(@quiz.course), class: "btn btn-secondary" %>
+
+<%= button_to "Delete Quiz", @quiz, method: :delete, data: { confirm: "Are you sure?" }, class: "btn btn-danger" %>

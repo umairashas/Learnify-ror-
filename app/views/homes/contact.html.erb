@@ -1,5 +1,3 @@
-<%# contact.html.erb %>
-
 <div class="contact-container">
   <h1 class="contact-title">Contact Us</h1>
   <p class="contact-description">
@@ -11,18 +9,36 @@
       <h3 class="contact-header">Get in Touch</h3>
       <p class="contact-description">If you need any help, please reach out via the following methods:</p>
       <ul class="contact-list">
-        <li>Email: <a href="mailto:info@learnify.com">info@learnify.com</a></li>
-        <li>Phone: +1 (123) 456-7890</li>
+        <li>
+          <i class="fas fa-envelope fa-lg"></i>
+          <a href="mailto:info@learnify.com">info@learnify.com</a>
+        </li>
+        <li>
+          <i class="fas fa-phone fa-lg"></i>
+          +1 (123) 456-7890
+        </li>
       </ul>
     </div>
 
     <div class="follow-us-box">
       <h3 class="contact-header">Follow Us</h3>
       <p class="contact-description">Stay updated by following us on social media:</p>
-      <ul class="contact-list">
-        <li><a href="https://www.facebook.com/learnify" target="_blank">Facebook</a></li>
-        <li><a href="https://twitter.com/learnify" target="_blank">Twitter</a></li>
-        <li><a href="https://www.linkedin.com/company/learnify" target="_blank">LinkedIn</a></li>
+      <ul class="contact-list social-icons">
+        <li>
+          <a href="https://www.facebook.com/learnify" target="_blank">
+            <i class="fab fa-facebook fa-2x"></i>
+          </a>
+        </li>
+        <li>
+          <a href="https://twitter.com/learnify" target="_blank">
+            <i class="fab fa-twitter fa-2x"></i>
+          </a>
+        </li>
+        <li>
+          <a href="https://www.linkedin.com/company/learnify" target="_blank">
+            <i class="fab fa-linkedin fa-2x"></i>
+          </a>
+        </li>
       </ul>
     </div>
   </div>
@@ -37,6 +53,7 @@
     padding: 40px 20px;
     font-family: Arial, sans-serif;
     color: #333;
+    margin-top: -50px;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -68,13 +85,10 @@
   .follow-us-box {
     width: 48%;
     padding: 20px;
-    background-color:  lightgray;
+    background-color: lightgray;
     border-radius: 10px;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  }
-
-  .get-in-touch-box {
-    background-color: lightgray;
+    text-align: center;
   }
 
   .contact-header {
@@ -92,14 +106,26 @@
   .contact-list li {
     font-size: 1.8rem;
     margin-bottom: 12px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
   }
 
-  .contact-list a {
+  .social-icons li {
+    display: inline-block;
+    margin-right: 15px;
+  }
+
+  .contact-list i {
+    margin-right: 8px;
     color: #2980b9;
-    text-decoration: none;
   }
 
-  .contact-list a:hover {
-    text-decoration: underline;
+  .social-icons i {
+    transition: color 0.3s ease-in-out;
+  }
+
+  .social-icons i:hover {
+    color: #1f6696;
   }
 </style>
