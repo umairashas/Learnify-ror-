@@ -32,10 +32,7 @@
       <%= f.text_field :phone_number, autofocus: true %>
     </div>
 
-    <div class="field">
-      <%= f.label :role %>
-      <%= f.select :role, User.roles.keys.map { |w| [w.humanize, w] }, prompt: "Select a role" %>
-    </div>
+    <%= f.hidden_field :role, value: 'student' %>
 
     <div class="actions">
       <%= f.submit "Sign up" %>

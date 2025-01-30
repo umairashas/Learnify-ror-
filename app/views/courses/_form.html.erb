@@ -1,5 +1,5 @@
 <%= form_with(model: course, local: true) do |form| %>
-<%= form.hidden_field :teacher_id, value: current_user.teacher.id%>
+<%= form.hidden_field :teacher_id, value: current_user.teacher%>
 
   <% if course.errors.any? %>
     <div style="color: red">

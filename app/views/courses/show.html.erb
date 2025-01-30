@@ -14,16 +14,15 @@
   <% end %>
 
  <div class="course-actions">
-  <% if @course.quiz.present? %>
-    <%= link_to "Edit Quiz", edit_quiz_path(@course.quiz), class: "btn btn-warning" %>
-  <% else %>
-    <%= link_to "Add Quiz for this course", new_quiz_path(teacher_id: @teacher, course_id: @course.id), class: "btn btn-quiz" %>
-  <% end %>
-
+ 
+    <%= link_to "Add Quiz for this course", new_course_quiz_path(teacher_id: @teacher, course_id: @course.id), class: "btn btn-quiz" %>
+    <%= link_to "Show all quiz", course_quizzes_path(@course), class: "btn btn-quiz" %>
   | <%= link_to "Edit this course", edit_course_path(@course), class: "btn btn-edit" %> |
   <%= link_to "Back to courses", courses_path, class: "btn btn-back" %> |
 
-  <%= button_to "Destroy this course", @course, method: :delete, class: "btn btn-danger", data: { confirm: "Are you sure?" } %>
+  <%= button_to "Destroy this course", @course, method: :delete, class: "btn btn-danger", data: { confirm: "Are you sure?" } %> | 
+
+
 </div>
 
 </div>

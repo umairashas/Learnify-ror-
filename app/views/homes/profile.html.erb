@@ -1,0 +1,87 @@
+<!-- app/views/home/profile.html.erb -->
+<!DOCTYPE html>
+<html>
+<head>
+</head>
+<body>
+
+<h1>User Profile</h1>
+
+<table>
+  <tr>
+    <th>Name</th>
+    <td><%= @user.name %></td>
+  </tr>
+  <tr>
+    <th>Email</th>
+    <td><%= @user.email %></td>
+  </tr>
+  <tr>
+    <th>Phone Number</th>
+    <td><%= @user.phone_number %></td>
+  </tr>
+  <tr>
+    <th>Role</th>
+    <td><%= @user.role %></td>
+  </tr>
+      <% if current_user.teacher.present? %>
+    <tr>
+      <th>Total Courses Added</th>
+      <td><%= current_user.teacher.courses.count %></td>
+    </tr>
+    <tr>
+      <th>Total Quiz Added</th>
+      <td><%= current_user.teacher.quizzes.count %></td>
+    </tr>
+  <% end %>
+</table>
+
+<%= link_to "Edit Profile", edit_user_registration_path, class: "btn" %>
+
+</body>
+</html>
+<style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f4f4f4;
+      margin-top: 50px;
+      padding: 20px;
+    }
+    h1 {
+      text-align: center;
+      color: #333;
+    }
+    table {
+      width: 50%;
+      margin: 20px auto;
+      border-collapse: collapse;
+      background-color: #fff;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    }
+    th, td {
+      padding: 12px;
+      text-align: left;
+      border-bottom: 1px solid #ddd;
+    }
+    th {
+      background-color: #f2f2f2;
+      color: #333;
+    }
+    tr:hover {
+      background-color: #f1f1f1;
+    }
+    .btn {
+      display: block;
+      width: 150px;
+      margin: 20px auto;
+      padding: 10px;
+      text-align: center;
+      background-color: #007bff;
+      color: white;
+      text-decoration: none;
+      border-radius: 5px;
+    }
+    .btn:hover {
+      background-color: #0056b3;
+    }
+  </style>

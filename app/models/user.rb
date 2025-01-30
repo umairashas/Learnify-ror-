@@ -1,22 +1,22 @@
 class User < ApplicationRecord
-  # Include default devise modules. Others available are:
-  # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
+  # Include default devise modules
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable
-  enum role: {student: 0, teacher: 1, admin: 2}
-    validates :role, presence: true
-  has_one :student, dependent: :destroy
-  has_one :teacher , dependent: :destroy
-  after_create :create_associated_record
 
+  # Associations
+  has_one :student, dependent: :destroy
+  has_one :teacher, dependent: :destroy
+  enum role: { student: 0, teacher: 1 }
+
+  # Callback to create a student record after user creation
+  after_create :create_student_record
+  
   private
 
-  def create_associated_record
-    case role
-    when "teacher"
-      Teacher.create(user: self)  # Create Teacher with user_id
-    when "student"
-      Student.create(user: self)  # Create Student with user_id
+  def create_student_record
+    # Ensure that this is only done for students
+    if role == 'student'
+      Student.create(name: name, email: email, phone_number: phone_number, user_id: id)
     end
   end
 end

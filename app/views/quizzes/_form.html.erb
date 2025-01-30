@@ -1,51 +1,41 @@
-<%= form_with(model: quiz) do |form| %>
-<% if @teacher.present? && @course.present? %>
-  <%= form.hidden_field :teacher_id, value: @teacher.id %>
-<%= form.hidden_field :course_id, value: @course.id if @course.present? %>
- <% end %>
-
-  <% if quiz.errors.any? %>
-    <div style="color: red">
-      <h2><%= pluralize(quiz.errors.count, "error") %> prohibited this quiz from being saved:</h2>
-      <ul>
-        <% quiz.errors.full_messages.each do |error| %>
-          <li><%= error %></li>
-        <% end %>
-      </ul>
-    </div>
+<%= form_with(model: [@course, @quiz || @course.quizzes.new]) do |form| %>
+  <% if @teacher.present? && @course.present? %>
+    <%= form.hidden_field :teacher_id, value: @teacher.id %>
+    <%= form.hidden_field :course_id, value: @course.id %>
   <% end %>
 
+  <!-- Add your form fields here -->
   <div class="field">
-    <%= form.label :question, "Question" %>
-    <%= form.text_area :question, rows: 3 %>
+    <%= form.label :question %>
+    <%= form.text_field :question %>
   </div>
 
   <div class="field">
-    <%= form.label :option_a, "Option A" %>
+    <%= form.label :option_a %>
     <%= form.text_field :option_a %>
   </div>
 
   <div class="field">
-    <%= form.label :option_b, "Option B" %>
+    <%= form.label :option_b %>
     <%= form.text_field :option_b %>
   </div>
 
   <div class="field">
-    <%= form.label :option_c, "Option C" %>
+    <%= form.label :option_c %>
     <%= form.text_field :option_c %>
   </div>
 
   <div class="field">
-    <%= form.label :option_d, "Option D" %>
+    <%= form.label :option_d %>
     <%= form.text_field :option_d %>
   </div>
 
   <div class="field">
-    <%= form.label :answer, "Correct Answer" %>
-    <%= form.select :answer, options_for_select([["Option A", "A"], ["Option B", "B"], ["Option C", "C"], ["Option D", "D"]]) %>
+    <%= form.label :answer %>
+    <%= form.text_field :answer %>
   </div>
 
-  <div>
-    <%= form.submit "Submit Quiz" %>
+  <div class="actions">
+    <%= form.submit %>
   </div>
 <% end %>

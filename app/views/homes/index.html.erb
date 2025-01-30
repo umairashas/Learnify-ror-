@@ -2,12 +2,12 @@
   <div class="dashboard">
     <h2>Explore Learning</h2>
     <div class="btn-group">
-      <% if current_user.role == 'teacher' || current_user.admin? %>
+      <% if current_user.role == 'teacher' %>
       <div class="button">
         <%= link_to "Add Course", new_course_path(teacher_id: current_user.id), class: 'btn btn-primary' %>
-      <% end %>
       <%= link_to "View All Courses", courses_path, class: 'btn btn-primary' %>
-      <%= link_to "View All Quizzes", quizzes_path, class: 'btn btn-secondary' %>
+      <% end %>
+      <%# <%= link_to "View All Quizzes", course_quizzes_path(@course), class: 'btn btn-primary'%> 
     </div>
     </div>
   </div>
@@ -59,7 +59,7 @@
   }
 
   .hero h1 {
-    font-size: 2.8em;
+    font-size: 2.8em;View All Quizzes
     margin-bottom: 15px;
     font-weight: bold;
   }

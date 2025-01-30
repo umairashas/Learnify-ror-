@@ -1,4 +1,4 @@
 class Certificate < ApplicationRecord
 	belongs_to :student
-	belongs_to :courses
+	belongs_to :course
 end

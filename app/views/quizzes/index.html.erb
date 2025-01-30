@@ -1,36 +1,35 @@
-<p style="color: green"><%= notice %></p>
+<h1>Quizzes for <%= @course.title %></h1>
 
-<% content_for :title, "Quizzes" %>
-
-<h1>Quizzes</h1>
-
-<table class="table">
-  <thead>
-    <tr>
-      <th>Sr. No</th>
-      <th>Course Name</th>
-      <th>Quiz Status</th>
-      <th>Actions</th>
-    </tr>
-  </thead>
-  <tbody>
-    <% @quizzes.each_with_index do |quiz, index| %>
+<% if @quizzes.present? %>
+  <table class="table">
+    <thead>
       <tr>
-        <td><%= index + 1 %></td>
-        <td><%= quiz.course.title %></td>
-        <td>
-          <% if quiz.present? %>
-            <span style="color: green;">Completed</span>
-          <% else %>
-            <span style="color: red;">Pending</span>
-          <% end %>
-        </td>
-        <td>
-          <%= link_to "Show Quiz", quiz, class: "btn btn-info" %>
-        </td>
+        <th>Sr. No</th>
+        <th>Question</th>
+        <th>Answer</th>
+        <th>Actions</th>
       </tr>
-    <% end %>
-  </tbody>
-</table>
+    </thead>
+    <tbody>
+      <% @quizzes.each_with_index do |quiz, index| %>
+        <% if quiz.course_id == @course.id %> <!-- Ensure only quizzes for this course are shown -->
+          <tr>
+            <td><%= index + 1 %></td>
+            <td><%= quiz.question %></td>
+            <td><%= quiz.answer %></td>
+            <td>
+              <%= link_to "Show", course_quiz_path(@course, quiz), class: "btn btn-info" %>
+              <%= link_to "Edit", edit_course_quiz_path(@course, quiz), class: "btn btn-warning" %>
+              <%= button_to "Delete", course_quiz_path(@course, quiz), method: :delete, data: { confirm: "Are you sure?" }, class: "btn btn-danger" %>
+            </td>
+          </tr>
+        <% end %>
+      <% end %>
+    </tbody>
+  </table>
+<% else %>
+  <p>No quizzes available for this course.</p>
+<% end %>
 
-<%= link_to "Back", root_path(teacher_id: @teacher, course_id: @course), class: "btn btn-primary" %>
+<%= link_to "Add New Quiz", new_course_quiz_path(@course), class: "btn btn-success" %>
+<%= link_to "Back to Course", course_path(@course), class: "btn btn-primary" %>

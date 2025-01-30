@@ -23,8 +23,6 @@ class CoursesController < ApplicationController
   end
 
   # GET /courses/1/edit
-  def edit
-  end
 
   # POST /courses or /courses.json
   def create
@@ -44,18 +42,28 @@ class CoursesController < ApplicationController
     
   end
 
-  # PATCH/PUT /courses/1 or /courses/1.json
-  def update
-    respond_to do |format|
-      if @course.update(course_params)
-        format.html { redirect_to @course, notice: "Course was successfully updated." }
-        format.json { render :show, status: :ok, location: @course }
-      else
-        format.html { render :edit, status: :unprocessable_entity }
-        format.json { render json: @course.errors, status: :unprocessable_entity }
-      end
-    end
+  def edit
+  @course = Course.find_by(id: params[:id])
+  if @course.nil?
+    redirect_to courses_path, alert: "Course not found."
   end
+end
+
+def update
+  @course = Course.find_by(id: params[:id])
+
+  if @course.nil?
+    redirect_to courses_path, alert: "Course not found."
+    return
+  end
+
+  if @course.update(course_params)
+    redirect_to course_path(@course), notice: "Course was successfully updated."
+  else
+    render :edit, status: :unprocessable_entity
+  end
+end
+
 
   # DELETE /courses/1 or /courses/1.json
   def destroy
