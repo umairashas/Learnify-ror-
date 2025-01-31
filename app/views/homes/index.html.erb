@@ -1,56 +1,105 @@
 <% if user_signed_in? %>
   <div class="dashboard">
-    <h2>Explore Learning</h2>
+    <h2>Welcome, <%= current_user.name || current_user.email %>!</h2>
     <div class="btn-group">
       <% if current_user.role == 'teacher' %>
-      <div class="button">
-        <%= link_to "Add Course", new_course_path(teacher_id: current_user.id), class: 'btn btn-primary' %>
-      <%= link_to "View All Courses", courses_path, class: 'btn btn-primary' %>
+        <div class="button-group">
+          <%= link_to "Add Course", new_course_path(teacher_id: current_user.id), class: 'btn btn-primary' %>
+          <%= link_to "View All Courses", courses_path, class: 'btn btn-primary' %>
+          
+        </div>
+      <% elsif current_user.role == 'student' %>
+        <div class="button-group">
+          <%= link_to "Go to Dashboard", student_dashboard_path, class: 'btn btn-primary' %>
+          
+        </div>
+      <% else %>
+        <p>No course available.</p>
       <% end %>
-      <%# <%= link_to "View All Quizzes", course_quizzes_path(@course), class: 'btn btn-primary'%> 
-    </div>
     </div>
   </div>
 <% else %>
   <div class="landing-page">
-  <div class="hero">
-    <h1>Welcome to the Learning Platform</h1>
-    <p>Join now to explore exciting courses and quizzes!</p>
-
-    <div class="heroimages">
-    <marquee behavior="alternate">
-      <img src="image.webp" alt="Studying Image" class="hero-image">
-    
-      <img src="image2.jpg" alt="Studying Image" class="hero-image">
-    
-      <img src="image3.jpg" alt="Studying Image" class="hero-image">
-    
-      <img src="image1.webp" alt="Studying Image" class="hero-image">
-    </marquee>
+    <div class="hero">
+      <h1>Welcome to the Learning Platform</h1>
+      <p>Join now to explore exciting courses and quizzes!</p>
+      <div class="hero-images">
+        <div class="image-slider">
+          <img src="image.webp" alt="Studying Image" class="hero-image">
+          <img src="image2.jpg" alt="Studying Image" class="hero-image">
+          <img src="image3.jpg" alt="Studying Image" class="hero-image">
+          <img src="image1.webp" alt="Studying Image" class="hero-image">
+        </div>
+      </div>
     </div>
-
   </div>
-</div>
-
 <% end %>
 
 <style>
-  .heroimages{
-    display: flex;
-    flex-direction: row;
-  }
   body {
     font-family: 'Arial', sans-serif;
+    margin: 0;
+    padding: 0;
+    background: #f4f4f4;
+    color: #333;
+  }
+
+  .dashboard {
+    text-align: center;
+    padding: 40px 20px;
+    background: linear-gradient(135deg, #2575fc, #6a11cb );
+    border-radius: 12px;
+    margin: 40px auto;
+    max-width: 900px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
     color: white;
   }
-  *{
-    overflow: hidden;
+
+  .dashboard h2 {
+    font-size: 2.2em;
+    margin-bottom: 20px;
+    font-weight: bold;
+  }
+
+  .btn-group {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    flex-wrap: wrap;
+  }
+
+  .btn {
+    display: inline-block;
+    padding: 12px 24px;
+    border-radius: 6px;
+    text-decoration: none;
+    font-weight: bold;
+    transition: all 0.3s ease-in-out;
+    font-size: 16px;
+    text-align: center;
+    background-color: rgba(255, 255, 255, 0.1);
+    color: white;
+    border: 2px solid rgba(255, 255, 255, 0.2);
+  }
+
+  .btn:hover {
+    background-color: white;
+    color: #2575fc;
+    border-color: white;
+    transform: translateY(-2px);
+  }
+
+  .button-group {
+    display: flex;
+    gap: 20px;
+    justify-content: center;
+    flex-wrap: wrap;
   }
 
   .hero {
     text-align: center;
-    padding: 70px 20px;
-    background: linear-gradient(975deg, #6a11cb, #2575fc);
+    padding: 50px 20px;
+    background: linear-gradient(to right, #667eea, #764ba2);
     border-radius: 12px;
     margin-top: 30px;
     width: 100%;
@@ -59,156 +108,65 @@
   }
 
   .hero h1 {
-    font-size: 2.8em;View All Quizzes
+    font-size: 2.5em;
     margin-bottom: 15px;
     font-weight: bold;
+    color: white;
   }
 
   .hero p {
     font-size: 1.2em;
     margin-bottom: 25px;
-  }
-
-  .auth-buttons {
-    display: flex;
-    justify-content: center;
-    gap: 15px;
-    flex-wrap: wrap;
-  }
-
-  /* Dashboard Section */
-  .dashboard {
-    text-align: center;
-    padding: 50px;
-    background: linear-gradient(975deg, #6a11cb, #2575fc);
-    border-radius: 12px;
-    margin: 40px auto;
-    max-width: 900px;
-    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.15);
-  }
-
-  .dashboard h2 {
-    font-size: 2.5em;
-    margin-bottom: 20px;
-    color: #333;
-  }
-
-  .btn-group {
-    display: flex;
-    justify-content: center;
-    gap: 20px;
-    flex-wrap: wrap;
-  }
-
-  /* Button Styling */
-  .btn {
-    display: inline-block;
-    padding: 12px 20px;
-    border-radius: 6px;
-    text-decoration: none;
-    font-weight: bold;
-    transition: all 0.3s ease-in-out;
-    font-size: 16px;
-    text-align: center;
-  }
-
-  .btn-primary {
-    background-color: #2575fc;
     color: white;
-    border: 2px solid transparent;
   }
 
-  .btn-primary:hover {
-    background-color: white;
-    color: #2575fc;
-    border-color: #2575fc;
+  .hero-images {
+    display: flex;
+    justify-content: center;
+    overflow: hidden;
+    position: relative;
+    width: 100%;
+    max-width: 600px;
+    margin: auto;
   }
 
-  .btn-secondary {
-    background-color: #f8d210;
-    color: black;
-    border: 2px solid transparent;
+  .image-slider {
+    display: flex;
+    width: 400%;
+    animation: slide 12s infinite;
   }
 
-  .btn-secondary:hover {
-    background-color: black;
-    color: #f8d210;
-    border-color: #f8d210;
+  .hero-image {
+    width: 100%;
+    max-width: 250px;
+    height: auto;
+    object-fit: cover;
+    border-radius: 10px;
+    margin: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
   }
 
-  /* Responsive Design */
+  @keyframes slide {
+    0% { transform: translateX(0); }
+    25% { transform: translateX(-100%); }
+    50% { transform: translateX(-200%); }
+    75% { transform: translateX(-300%); }
+    100% { transform: translateX(0); }
+  }
+
   @media (max-width: 768px) {
-    .hero {
-      padding: 70px 20px;
-    }
-
-    .hero h1 {
-      font-size: 2.2em;
-    }
-
     .btn-group {
       flex-direction: column;
       align-items: center;
     }
-  }
 
-  .button {
-    display: flex;
-    flex-direction: row;
-    gap: 20px;
-    color: black;
-    justify-content: center;
-  }
+    .hero h1 {
+      font-size: 2em;
+    }
 
-  /* Button alignment in Dashboard */
-  .btn-group {
-    flex-direction: row;
-    gap: 20px;
-    align-items: center;
+    .btn {
+      width: 100%;
+      margin-bottom: 10px;
+    }
   }
-
-  .hero-image {
-  width: 300px;  /* Set the desired width */
-  height: 200px; /* Set the desired height */
-  object-fit: cover; /* Ensures images maintain aspect ratio while filling the space */
-  border-radius: 10px; /* Optional: Adds rounded corners */
-  margin: 10px; /* Adds spa direction="right"cing between images */
-  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2); /* Optional: Adds a slight shadow */
-}
-
-.image-slider {
-  display: flex;
-  justify-content: center;
-  overflow: hidden;
-  position: relative;
-  display: flex;
-  width: 300%;  
-  animation: slide 9s ;
-}
-
-.hero-image {
-  width: 300px;  /* Set the desired width */
-  height: 200px; /* Set the desired height */
-  object-fit: cover; /* Ensures images maintain aspect ratio while filling the space */
-  border-radius: 10px;
-  margin: 10px; /* Adds spacing between images */
-  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2); /* Optional: Adds a slight shadow */
-<%#   animation: slide 3s infinite; %>
-}
-
-@keyframes slide {
-  0% {
-    transform: translateX(0);
-  }
-  33% {
-    transform: translateX(-100%);
-  }
-  66% {
-    transform: translateX(-200%);
-  }
-  100% {
-    transform: translateX(0);
-  }
-}
-
 </style>

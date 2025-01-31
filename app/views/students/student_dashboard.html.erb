@@ -1,0 +1,164 @@
+<!-- app/views/students/student_dashboard.html.erb -->
+<div class="dashboard">
+  <h2>Welcome, <%= current_user.name %>!</h2>
+  <p>Explore your enrolled courses and start learning.</p>
+
+  <div class="btn-group">
+   
+
+    <%= link_to "Enroll in a Course", enroll_course_path, class: 'btn' %>
+  </div>
+
+  <% if @courses.any? %>
+    <h1>My Enrolled Courses</h1>
+    <div class="course-list">
+      <% @courses.each_with_index do |course, index| %>
+        <div class="course-item">
+          <span class="course-number"><%= index + 1 %>.</span>
+          <span class="course-title"><%= course.title %></span>
+          <%= link_to "Play", course_path(course), class: 'play-btn' %>
+        </div>
+      <% end %>
+    </div>
+  <% else %>
+    <p class="no-course">You are not enrolled in any courses yet.</p>
+  <% end %>
+
+  <%= link_to "Back to Home", root_path, class: 'btn-secondary' %>
+</div>
+
+<style>
+  body {
+    font-family: 'Arial', sans-serif;
+    background-color: #f4f6f9;
+    margin: 0;
+    padding: 0;
+  }
+
+  .dashboard {
+    text-align: center;
+    padding: 40px;
+    background: #ffffff;
+    border-radius: 12px;
+    margin: 50px auto;
+    max-width: 800px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+  }
+
+  .dashboard h2 {
+    font-size: 2.2em;
+    color: #333;
+    margin-bottom: 10px;
+  }
+
+  .dashboard p {
+    font-size: 1.2em;
+    color: #666;
+    margin-bottom: 20px;
+  }
+
+  .btn-group {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    flex-wrap: wrap;
+    margin-bottom: 20px;
+  }
+
+  .btn, .btn-secondary, .play-btn {
+    display: inline-block;
+    padding: 12px 20px;
+    border-radius: 8px;
+    text-decoration: none;
+    font-weight: bold;
+    font-size: 16px;
+    transition: all 0.3s ease-in-out;
+    text-align: center;
+    cursor: pointer;
+  }
+
+  .btn {
+    background-color: #2575fc;
+    color: white;
+    border: none;
+  }
+
+  .btn:hover {
+    background-color: #1a5fcc;
+  }
+
+  .btn-secondary {
+    background-color: #f8d210;
+    color: black;
+    margin-top: 50px;
+
+  }
+
+  .btn-secondary:hover {
+    background-color: #d1b109;
+    text-decoration: none;
+  }
+
+  .play-btn {
+    background-color: #4CAF50;
+    color: white;
+    padding: 10px 15px;
+  }
+
+  .play-btn:hover {
+    background-color: #3e8e41;
+    text-decoration: none;
+  }
+
+  .course-list {
+    margin-top: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+  }
+
+  .course-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: #f1f1f1;
+    padding: 15px;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  }
+
+  .course-title {
+    flex-grow: 1;
+    font-size: 1.2em;
+    font-weight: bold;
+    color: #333;
+    text-align: left;
+    margin-left: 10px;
+  }
+
+  .no-course {
+    color: #888;
+    font-style: italic;
+  }
+
+  @media (max-width: 768px) {
+    .dashboard {
+      width: 90%;
+      padding: 30px;
+    }
+
+    .btn-group {
+      flex-direction: column;
+    }
+
+    .course-item {
+      flex-direction: column;
+      text-align: center;
+    }
+
+    .course-title {
+      margin-left: 0;
+      margin-bottom: 10px;
+    }
+  }
+</style>

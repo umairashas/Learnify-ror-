@@ -1,0 +1,161 @@
+<!-- app/views/courses/enroll.html.erb -->
+<div class="dashboard">
+  <h1>Enroll in Courses</h1>
+
+  <% if @courses.any? %>
+    <div class="course-list">
+      <% @courses.each do |course| %>
+        <div class="course-item">
+          <div class="course-info">
+            <span class="course-title"><%= course.title %></span>
+            <span class="teacher-name">by <%= course.teacher.user.name %></span>
+          </div>
+          
+          <div class="course-actions">
+            <% if current_user.student.courses.include?(course) %>
+              <%= button_to "Unenroll", unenroll_course_path(course), method: :delete, class: 'btn unenroll-btn' %>
+            <% else %>
+              <%= button_to "Enroll", enroll_in_course_path(course), method: :post, class: 'btn enroll-btn' %>
+            <% end %>
+          </div>
+        </div>
+      <% end %>
+    </div>
+  <% else %>
+    <p class="no-course">No courses available for enrollment.</p>
+  <% end %>
+
+  <%= link_to "Back to Dashboard", student_dashboard_path, class: 'btn back-btn' %>
+</div>
+
+<style>
+  body {
+    font-family: 'Arial', sans-serif;
+    background-color: #f4f6f9;
+    margin: 0;
+    padding: 0;
+  }
+
+  .dashboard {
+    text-align: center;
+    padding: 40px;
+    background: #ffffff;
+    border-radius: 12px;
+    margin: 50px auto;
+    max-width: 800px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+  }
+
+  .dashboard h1 {
+    font-size: 2em;
+    color: #333;
+    margin-bottom: 20px;
+  }
+
+  .course-list {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    margin-top: 20px;
+  }
+
+  .course-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: #f9f9f9;
+    padding: 15px;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  }
+
+  .course-info {
+    text-align: left;
+  }
+
+  .course-title {
+    font-size: 1.2em;
+    font-weight: bold;
+    color: #333;
+  }
+
+  .teacher-name {
+    font-size: 0.9em;
+    color: #777;
+    display: block;
+    margin-top: 5px;
+  }
+
+  .course-actions {
+    display: flex;
+    gap: 10px;
+  }
+
+  .btn {
+    padding: 10px 15px;
+    border-radius: 6px;
+    text-decoration: none;
+    font-weight: bold;
+    font-size: 14px;
+    transition: all 0.3s ease-in-out;
+    cursor: pointer;
+    border: none;
+    outline: none;
+  }
+
+  .enroll-btn {
+    background-color: #2575fc;
+    color: white;
+  }
+
+  .enroll-btn:hover {
+    background-color: #1a5fcc;
+  }
+
+  .unenroll-btn {
+    background-color: #ff4d4d;
+    color: white;
+  }
+
+  .unenroll-btn:hover {
+    background-color: #cc0000;
+  }
+
+  .back-btn {
+    display: inline-block;
+    background-color: #f8d210;
+    color: black;
+    margin-top: 20px;
+  }
+
+  .back-btn:hover {
+    background-color: #d1b109;
+  }
+
+  .no-course {
+    color: #888;
+    font-style: italic;
+    margin-top: 20px;
+  }
+
+  @media (max-width: 768px) {
+    .dashboard {
+      width: 90%;
+      padding: 30px;
+    }
+
+    .course-item {
+      flex-direction: column;
+      text-align: center;
+    }
+
+    .course-info {
+      margin-bottom: 10px;
+    }
+
+    .course-actions {
+      flex-direction: column;
+      gap: 5px;
+    }
+  }
+</style>

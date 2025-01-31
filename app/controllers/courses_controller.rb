@@ -6,7 +6,7 @@ class CoursesController < ApplicationController
     if current_user.role == 'teacher'
     @teacher = current_user.teacher # Get the teacher associated with the current user
     @courses = @teacher.courses # Fetch courses added by the teacher
-  elsif current_user.admin?
+  elsif current_user.role == 'student'
     @courses = Course.all # Admins can see all courses
   else
     redirect_to root_path, alert: "You are not authorized to view this page."
@@ -15,6 +15,7 @@ class CoursesController < ApplicationController
 
   # GET /courses/1 or /courses/1.json
   def show
+      @course = Course.find(params[:id])
   end
 
   # GET /courses/new
@@ -73,6 +74,24 @@ end
       format.html { redirect_to courses_path, status: :see_other, notice: "Course was successfully destroyed." }
       format.json { head :no_content }
     end
+  end
+
+  def enroll
+    @courses = Course.all.includes(:teacher) # Fetch all courses with their teachers
+  end
+
+  # POST /courses/enroll/:id
+  def enroll_course
+    course = Course.find(params[:id])
+    current_user.student.courses << course
+    redirect_to enroll_course_path, notice: "Enrolled in #{course.title} successfully!"
+  end
+
+  # DELETE /courses/unenroll/:id
+  def unenroll_course
+    course = Course.find(params[:id])
+    current_user.student.courses.delete(course)
+    redirect_to enroll_course_path, notice: "Unenrolled from #{course.title} successfully!"
   end
 
   private

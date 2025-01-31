@@ -1,4 +1,5 @@
-<%= form_with(model: [@course, @quiz || @course.quizzes.new]) do |form| %>
+<div class= 'container'>
+  <%= form_with(model: [@course, @quiz || @course.quizzes.new]) do |form| %>
   <% if @teacher.present? && @course.present? %>
     <%= form.hidden_field :teacher_id, value: @teacher.id %>
     <%= form.hidden_field :course_id, value: @course.id %>
@@ -39,3 +40,62 @@
     <%= form.submit %>
   </div>
 <% end %>
+</div>
+<style>
+ 
+
+  form {
+  max-width: 500px;
+  margin: 20px auto;
+  padding: 20px;
+  background: #f8f9fa;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.field {
+  margin-bottom: 15px;
+}
+
+label {
+  font-weight: bold;
+  display: block;
+  margin-bottom: 5px;
+  color: #333;
+}
+
+input[type="text"] {
+  width: 100%;
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 16px;
+  transition: border 0.3s;
+}
+
+input[type="text"]:focus {
+  border-color: #007bff;
+  outline: none;
+}
+
+.actions {
+  text-align: center;
+  margin-top: 15px;
+}
+
+input[type="submit"] {
+  background: #007bff;
+  color: #fff;
+  padding: 10px 20px;
+  font-size: 16px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+input[type="submit"]:hover {
+  background: #6E61CC;
+}
+
+</style>

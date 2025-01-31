@@ -7,7 +7,16 @@ class StudentsController < ApplicationController
   end
 
   # GET /students/1 or /students/1.json
+
+  def student_dashboard
+    @courses = Course.all # All available courses
+
+    @student = current_user.student
+    @courses = @student.courses
+  end
+
   def show
+      @course = Course.find(params[:id])
   end
 
   # GET /students/new
@@ -56,6 +65,8 @@ class StudentsController < ApplicationController
       format.json { head :no_content }
     end
   end
+
+
 
   private
     # Use callbacks to share common setup or constraints between actions.

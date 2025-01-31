@@ -14,7 +14,9 @@ class User < ApplicationRecord
   private
 
   def create_student_record
-    # Ensure that this is only done for students
+    if role == 'teacher'
+      Teacher.create(user_id: id)
+    end
     if role == 'student'
       Student.create(name: name, email: email, phone_number: phone_number, user_id: id)
     end

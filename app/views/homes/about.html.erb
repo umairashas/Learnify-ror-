@@ -1,55 +1,81 @@
-
 <%# about.html.erb %>
 
 <div class="about-container">
   <h1 class="about-title">About Us</h1>
   <p class="about-description">
-    Welcome to Learnify! We are a platform dedicated to helping learners of all levels acquire new skills and knowledge through a wide range of courses and quizzes. Our goal is to make learning engaging, interactive, and accessible for everyone.
+    Welcome to <strong>Learnify</strong>! We are a platform dedicated to helping learners of all levels acquire new skills and knowledge through a wide range of courses and quizzes. Our goal is to make learning <strong>engaging, interactive, and accessible</strong> for everyone.
   </p>
   <p class="about-description">
-    With a team of passionate educators and developers, we strive to create a unique and personalized learning experience for all our users. Whether you're looking to pick up a new hobby or advance your career, Learnify has something for you.
+    With a team of passionate <strong>educators and developers</strong>, we strive to create a unique and personalized learning experience for all our users. Whether you're looking to pick up a new hobby or advance your career, <strong>Learnify</strong> has something for you.
   </p>
   <h3 class="about-mission-title">Our Mission</h3>
   <p class="about-mission-description">
-    Our mission is to empower individuals to reach their full potential by providing high-quality education in a convenient and user-friendly environment. We believe in the power of education to transform lives and help people achieve their goals.
+    Our mission is to empower individuals to reach their full potential by providing <strong>high-quality education</strong> in a convenient and user-friendly environment. We believe in the power of education to <strong>transform lives</strong> and help people achieve their goals.
   </p>
 </div>
 
-  <style>
-  <style>
-  /* Custom Styling */
+<style>
+  *{
+    overflow: hidden;
+  }
+  /* Gradient Background */
+  body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Poppins', sans-serif;
+  
+    color: white;
+  }
+
   .about-container {
-    padding: 20px;
-    font-family: Arial, sans-serif;
-    color: #333;
+    max-width: 900px;
+    margin: 25px auto;
+    padding: 40px;
+    background: linear-gradient(to right, #667eea, #764ba2);
+    border-radius: 12px;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+    text-align: center;
   }
 
   .about-title {
-    text-align: center;
-    font-size: 4.5rem; /* Increased font size */
-    margin-bottom: 25px;
-    color: #2c3e50;
+    font-size: 4rem;
+    margin-bottom: 20px;
+    color: #fff;
+    text-transform: uppercase;
+    font-weight: bold;
   }
 
-  .about-description {
-    font-size: 2rem; /* Increased font size */
+  .about-description, .about-mission-description {
+    font-size: 1.6rem;
     line-height: 1.8;
+    color: #f1f1f1;
     margin-bottom: 20px;
-    color: #555;
   }
 
   .about-mission-title {
-    font-size: 3rem; /* Increased font size */
-    margin-top: 30px;
-    color: #2980b9;
+    font-size: 3rem;
+    margin-top: 40px;
+    color: #ffeb3b; /* Bright yellow for contrast */
+    text-transform: uppercase;
   }
 
-  .about-mission-description {
-    font-size: 2rem; /* Increased font size */
-    line-height: 1.8;
-    color: #555;
+  /* Responsive Design */
+  @media (max-width: 768px) {
+    .about-container {
+      margin: 40px 20px;
+      padding: 30px;
+    }
+
+    .about-title {
+      font-size: 3rem;
+    }
+
+    .about-mission-title {
+      font-size: 2.5rem;
+    }
+
+    .about-description, .about-mission-description {
+      font-size: 1.4rem;
+    }
   }
 </style>
-
-</style>
-

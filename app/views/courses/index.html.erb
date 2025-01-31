@@ -2,7 +2,6 @@
 
 <% content_for :title, "Courses" %>
 
-
 <h1 class="courses-heading">Courses</h1>
 
 <div id="courses" class="course-grid">
@@ -10,14 +9,28 @@
     <div class="course-item" data-url="<%= course_path(course) %>">
       <span class="course-number"><%= index + 1 %>.</span>
       <span class="course-title"><%= course.title %></span>
+
+      <% if current_user.role == 'student' %>
+        <% if current_user.student.courses.include?(course) %>
+          <!-- Display the video player if the student is enrolled -->
+          <%= video_tag url_for(course.video), controls: true if course.video.attached? %>
+        <% else %>
+          <!-- Message for non-enrolled students and the Enroll button -->
+          <p>You are not enrolled in this course.</p>
+          <%= button_to "Enroll", enroll_course_path(course), method: :post, class: "btn btn-primary enroll-btn" %>
+        <% end %>
+      <% end %>
+
     </div>
   <% end %>
+      <% if current_user.role == 'teacher' %>
+          <%= link_to "Back to courses", root_path, class: "btn btn-secondary" %> 
+      <% end %>
 </div>
-<% if current_user.role == 'teacher' %>
-  <%= link_to "Add Course", new_course_path(teacher_id: current_user.teacher.id), class: "btn btn-primary add-course-btn" %>
-<% else %>
-  <p class="alert-message">You must be a teacher or an admin to add a course.</p>
-<% end %>
+
+
+
+
 
 <style>/* General */
 /* General Layout for Courses Grid */
