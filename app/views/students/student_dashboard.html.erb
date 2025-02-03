@@ -21,46 +21,7 @@
   <% else %>
     <p class="no-course">You are not enrolled in any courses yet.</p>
   <% end %>
-  <h1>Your Quizzes</h1>
 
-<% completed_courses = current_user.student.courses.select { |course| session["completed_video_#{course.id}"] } %>
-
-<% if completed_courses.any? %>
-  <% completed_courses.each do |course| %>
-    <% if course.quizzes.any? %>
-      <h2>Quizzes for <%= course.title %></h2>
-
-      <ol>
-        <% course.quizzes.each_with_index do |quiz, index| %>
-          <li>
-            <h4>Q<%= index + 1 %>: <%= quiz.question %></h4>
-
-            <%= form_with url: submit_course_quiz_path(course, quiz), method: :post do |form| %>
-              <div>
-                <%= form.label :answer, "Choose your answer:" %><br>
-                <%= form.radio_button :answer, quiz.option_a %> <%= quiz.option_a %><br>
-                <%= form.radio_button :answer, quiz.option_b %> <%= quiz.option_b %><br>
-                <%= form.radio_button :answer, quiz.option_c %> <%= quiz.option_c %><br>
-                <%= form.radio_button :answer, quiz.option_d %> <%= quiz.option_d %><br>
-              </div>
-
-              <%= form.hidden_field :quiz_id, value: quiz.id %>
-              <% if current_user.student.present? %>
-                <%= form.hidden_field :student_id, value: current_user.student.id %>
-              <% end %>
-
-              <%= form.submit "Submit Answer", class: "custom-btn" %>
-            <% end %>
-          </li>
-        <% end %>
-      </ol>
-    <% else %>
-      <p>No quizzes available for <%= course.title %>.</p>
-    <% end %>
-  <% end %>
-<% else %>
-  <p>No completed course videos yet. Finish a course to unlock quizzes.</p>
-<% end %>
 
 <%= link_to "Back to Home", root_path, class: 'btn btn-secondary' %>
 

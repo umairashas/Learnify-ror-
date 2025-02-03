@@ -97,7 +97,7 @@ end
   end
 
   def complete_video
-  session["completed_video_#{params[:id]}"] = false
+  session["completed_video_#{params[:id]}"] = true
   render json: { message: "Video marked as completed!" }
   end
 

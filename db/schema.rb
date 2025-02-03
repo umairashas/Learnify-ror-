@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2025_02_03_112647) do
+ActiveRecord::Schema[7.2].define(version: 2025_02_03_203719) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -44,10 +44,10 @@ ActiveRecord::Schema[7.2].define(version: 2025_02_03_112647) do
 
   create_table "certificates", force: :cascade do |t|
     t.bigint "student_id", null: false
-    t.bigint "course_id", null: false
+    t.bigint "courses_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["course_id"], name: "index_certificates_on_course_id"
+    t.index ["courses_id"], name: "index_certificates_on_courses_id"
     t.index ["student_id"], name: "index_certificates_on_student_id"
   end
 
@@ -67,6 +67,7 @@ ActiveRecord::Schema[7.2].define(version: 2025_02_03_112647) do
     t.string "answer"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "score"
   end
 
   create_table "quizzes", force: :cascade do |t|
@@ -89,6 +90,7 @@ ActiveRecord::Schema[7.2].define(version: 2025_02_03_112647) do
     t.bigint "course_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.boolean "video_completed"
     t.index ["course_id"], name: "index_student_courses_on_course_id"
     t.index ["student_id"], name: "index_student_courses_on_student_id"
   end
@@ -127,7 +129,7 @@ ActiveRecord::Schema[7.2].define(version: 2025_02_03_112647) do
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
-  add_foreign_key "certificates", "courses"
+  add_foreign_key "certificates", "courses", column: "courses_id"
   add_foreign_key "certificates", "students"
   add_foreign_key "courses", "teachers"
   add_foreign_key "quizzes", "courses"

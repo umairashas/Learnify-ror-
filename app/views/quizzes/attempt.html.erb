@@ -1,6 +1,6 @@
 <h1>Complete Quiz</h1>
 
-<%= form_with url: submit_course_quiz_path(@course), method: :post do |form| %>
+<%= form_with url: submit_course_quiz_path(@course, @quiz), method: :post do |form| %>
   <% @course.quizzes.each_with_index do |quiz, index| %>
     <h3>Q<%= index + 1 %>: <%= quiz.question %></h3>
 

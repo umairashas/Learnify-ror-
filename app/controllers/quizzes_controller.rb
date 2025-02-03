@@ -93,23 +93,43 @@ before_action :set_course
   end
 
     def attempt
-    @course = @quiz.course# This action will render the quiz form for the student to attempt
-  end
+       @course = @quiz.course# This action will render the quiz form for the student to attempt
+    end
 
    # In your QuizzesController
 def submit
   @course = Course.find(params[:course_id])
-  @quizzes = @course.quizzes
+  total_questions = @course.quizzes.count
+  answers = 0
 
-  # Loop through the submitted answers for each quiz
-  @quizzes.each do |quiz|
-    answer = params["answer_#{quiz.id}"]  # Get the answer for each quiz
-    # You can then save the answer to a QuizAttempt or process it further
-    QuizAttempt.create(student_id: current_user.student.id, quiz_id: quiz.id, answer: answer)
+  # Find or create the student_course record
+  student_course = StudentCourse.find_or_create_by(student_id: current_user.student.id, course_id: @course.id)
+
+  # Mark the video as completed in the database
+  student_course.update(video_completed: true)
+
+  # Process answers and calculate correct answers
+  @course.quizzes.each do |quiz|
+    answer = params["answer_#{quiz.id}"]
+    if answer.present?
+      # Save the student's answer and score
+      QuizAttempt.create(student_id: current_user.student.id, quiz_id: quiz.id, answer: answer, score: (answer == quiz.answer ? 1 : 0))
+      correct_answers += 1 if answer == quiz.answer
+    else
+      flash[:alert] = "You did not answer all the questions. Please try again."
+      redirect_to attempt_course_quiz_path(@course, @quiz) and return
+    end
   end
 
-  # Redirect to a summary page or a confirmation page
-  redirect_to course_quizzes_path(@course), notice: "Your answers have been submitted successfully!"
+  # Calculate the percentage score
+  percentage_score = (answers.to_f / total_questions) * 100
+
+  # Save the percentage score (optional)
+  # QuizAttempt.create(student_id: current_user.student.id, quiz_id: @quiz.id, score: percentage_score)
+
+  # Display the percentage score to the student
+  flash[:notice] = "Quiz submitted successfully! Your score: #{correct_answers}/#{total_questions} (#{percentage_score.round(2)}%)"
+  redirect_to course_path(@course)
 end
 
 

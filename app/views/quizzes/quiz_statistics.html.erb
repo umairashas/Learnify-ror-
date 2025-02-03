@@ -3,14 +3,16 @@
 <table class="table">
   <thead>
     <tr>
+      <th>SR NO.    </th>
       <th>Quiz</th>
       <th>Total Students Attempted</th>
       <th>Total Students Passed</th>
     </tr>
   </thead>
   <tbody>
-    <% @quizzes.each do |quiz| %>
+    <% @quizzes.each_with_index do |quiz, index| %>
       <tr>
+        <td><%= index + 1 %></td>
         <td><%= quiz.question %></td>
         <td><%= @student_attempts.count { |student_id, count| count > 0 } %></td>
         <td><%= @students_passed.count { |student_id, count| count > 0 } %></td>
