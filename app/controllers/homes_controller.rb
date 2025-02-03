@@ -2,11 +2,13 @@ class HomesController < ApplicationController
   before_action :authenticate_user!, except: [ :index, :about, :contact ]
 
   def index
+    @user = current_user
     @courses = Course.all
-    # if current_user.role == 'teacher'
-    #   @teacher = current_user.teacher
-    #   @course = @teacher.courses # Fetch the first course for the teacher (or use another logic)
-    # end
+    if user_signed_in?
+    @enrolled_courses = current_user.student&.courses || []
+  else
+    @enrolled_courses = []
+  end
   end
 
   def about

@@ -5,10 +5,12 @@ class ApplicationController < ActionController::Base
 
   before_action :configure_permitted_parameters, if: :devise_controller?
   def after_sign_in_path_for(resource)
-    if resource.role == "student"
-      student_dashboard_path # or any other route that directs to the student's dashboard
+    if resource.is_a?(Teacher)
+      teacher_dashboard_path  # Redirect teachers to their dashboard
+    elsif resource.is_a?(Student)
+      student_dashboard_path  # Redirect students to their dashboard
     else
-      super # Default behavior (redirect to the home page or another default page)
+      root_path # Default redirection
     end
   end
 

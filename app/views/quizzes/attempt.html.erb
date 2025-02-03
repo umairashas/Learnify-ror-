@@ -1,0 +1,17 @@
+<h1>Complete Quiz</h1>
+
+<%= form_with url: submit_course_quiz_path(@course), method: :post do |form| %>
+  <% @course.quizzes.each_with_index do |quiz, index| %>
+    <h3>Q<%= index + 1 %>: <%= quiz.question %></h3>
+
+    <div>
+      <%= form.radio_button "answer_#{quiz.id}", quiz.option_a %> <%= quiz.option_a %><br>
+      <%= form.radio_button "answer_#{quiz.id}", quiz.option_b %> <%= quiz.option_b %><br>
+      <%= form.radio_button "answer_#{quiz.id}", quiz.option_c %> <%= quiz.option_c %><br>
+      <%= form.radio_button "answer_#{quiz.id}", quiz.option_d %> <%= quiz.option_d %><br>
+    </div>
+    <br>
+  <% end %>
+
+  <%= form.submit "Submit All Answers", class: "btn btn-primary" %>
+<% end %>

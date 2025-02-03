@@ -96,6 +96,12 @@ end
   @students = @course.students  # Assuming a `has_many :students` association
   end
 
+  def complete_video
+  session["completed_video_#{params[:id]}"] = false
+  render json: { message: "Video marked as completed!" }
+  end
+
+
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_course

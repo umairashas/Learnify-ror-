@@ -1,7 +1,7 @@
+<!-- app/views/home/profile.html.erb -->
 <!DOCTYPE html>
 <html>
 <head>
-  <title>User Profile</title>
 </head>
 <body>
 
@@ -24,61 +24,38 @@
     <th>Role</th>
     <td><%= @user.role %></td>
   </tr>
-
-  <% if current_user.teacher? %>
-    <!-- Teacher-specific content -->
+  <% if current_user.teacher.present? %>
     <tr>
       <th>Total Courses Added</th>
       <td><%= current_user.teacher.courses.count %></td>
     </tr>
     <tr>
-      <th>Total Quizzes Added</th>
+      <th>Total Quiz Added</th>
       <td><%= current_user.teacher.quizzes.count %></td>
     </tr>
+    <h2>Students</h2>
 
-    <!-- Student Details Section -->
     <% if @unique_students.any? %>
-      <tr>
-        <td colspan="2">
-          <h2>Student Details</h2>
-          <table class="student-table">
-            <thead>
-              <tr>
-                <th>Student Name</th>
-                <th>Email</th>
-                <th>Courses Enrolled</th>
-                <th>Courses Count</th>
-              </tr>
-            </thead>
-            <tbody>
-              <% @unique_students.each do |student| %>
-                <tr>
-                  <td><%= student.name %></td>
-                  <td><%= student.email %></td>
-                  <td>
-                    <% if student.courses.any? %>
-                      <ol>
-                        <% student.courses.each do |course| %>
-                          <li><%= course.title %></li>
-                        <% end %>
-                      </ol>
-                    <% else %>
-                      <span>No courses enrolled</span>
-                    <% end %>
-                  </td>
-                  <td><%= student.course_count %></td>
-                </tr>
-              <% end %>
-            </tbody>
-          </table>
-        </td>
-      </tr>
+      <table class="student-table">
+        <thead>
+          <tr>
+            <th>Student Name</th>
+            <th>Email</th>
+            <th>Courses Enrolled</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% @unique_students.each do |student| %>
+            <tr>
+              <td><%= student.name %></td>
+              <td><%= student.email %></td>
+              <td><%= student.course_count %></td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
     <% else %>
-      <tr>
-        <td colspan="2">
-          <p>No students found.</p>
-        </td>
-      </tr>
+      <p>No students found.</p>
     <% end %>
   <% end %>
 </table>
@@ -97,7 +74,7 @@ body {
 }
 
 /* Heading Style */
-h1,h2 {
+h1 {
   text-align: center;
   color: #333;
   font-size: 2.5rem;

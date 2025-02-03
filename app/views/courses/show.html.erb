@@ -14,31 +14,40 @@
   <script>
     document.addEventListener('DOMContentLoaded', function() {
       const video = document.getElementById('course-video');
-
-      // Check if the user is a student
-      const isStudent = <%= current_user.student? %>; // Replace with your logic to check if the user is a student
+      const isStudent = <%= current_user.student? %>; 
 
       if (isStudent) {
-        // Ensure the video starts from the beginning
         video.currentTime = 0;
 
         // Prevent seeking
         video.addEventListener('seeked', function() {
           if (video.currentTime > 0) {
-            video.currentTime = 0; // Reset to the beginning if the user tries to seek
+            video.currentTime = 0; 
           }
         });
 
-        // Prevent skipping by disabling the progress bar
+        // Prevent skipping
         video.addEventListener('timeupdate', function() {
           if (video.currentTime > 0 && video.seeking) {
-            video.currentTime = 0; // Reset to the beginning if the user tries to skip
+            video.currentTime = 0; 
           }
         });
 
         // Disable right-click to prevent downloading
         video.addEventListener('contextmenu', function(event) {
           event.preventDefault();
+        });
+
+        // Mark video as completed when finished
+        video.addEventListener('ended', function() {
+          fetch("<%= complete_video_course_path(@course) %>", {
+            method: "POST",
+            headers: { "X-CSRF-Token": "<%= form_authenticity_token %>" }
+          }).then(response => response.json())
+            .then(data => {
+              alert(data.message);
+              location.reload(); // Reload to show quizzes
+            });
         });
       }
     });
@@ -55,7 +64,26 @@
       <%= link_to "Back to courses", student_dashboard_path, class: "btn btn-back" %> 
     <% end %>
   </div>
+  <% if current_user.student? %>
+  <% if session["completed_video_#{@course.id}"] %>
+  <% if @course.quizzes.exists? %>
+    <h1>Your Quizzes</h1>
+    <ul>
+      <% @course.quizzes.each do |quiz| %>
+        <li>
+          <%= link_to "Attempt Quiz: #{quiz.question}", attempt_course_quiz_path(@course, quiz) %>
+        </li>
+      <% end %>
+    </ul>
+  <% else %>
+    <p><strong>The quiz for this course does not exist.</strong></p>
+  <% end %>
+<% else %>
+  <p><strong>Watch the full video to unlock quizzes.</strong></p>
+<% end %>
+<% end %>
 </div>
+
 
 <style>
   /* Course Details */

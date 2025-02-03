@@ -14,7 +14,17 @@ Rails.application.routes.draw do
     member do
     get :enrolled_students
   end
-    resources :quizzes
+  post :complete_video, on: :member
+    resources :quizzes do 
+       collection do
+      get 'quiz_statistics'
+    end
+       member do
+    get 'attempt'
+    post 'submit'
+  end
+      
+    end
   end
 
   resources :teachers

@@ -1,6 +1,6 @@
 class QuizzesController < ApplicationController
-  before_action :set_quiz, only: %i[show edit update destroy]
-
+before_action :set_quiz, only: %i[show edit update destroy attempt submit]
+before_action :set_course
   # GET /quizzes
   def index
     if current_user.role == "teacher"
@@ -92,10 +92,51 @@ class QuizzesController < ApplicationController
     end
   end
 
+    def attempt
+    @course = @quiz.course# This action will render the quiz form for the student to attempt
+  end
+
+   # In your QuizzesController
+def submit
+  @course = Course.find(params[:course_id])
+  @quizzes = @course.quizzes
+
+  # Loop through the submitted answers for each quiz
+  @quizzes.each do |quiz|
+    answer = params["answer_#{quiz.id}"]  # Get the answer for each quiz
+    # You can then save the answer to a QuizAttempt or process it further
+    QuizAttempt.create(student_id: current_user.student.id, quiz_id: quiz.id, answer: answer)
+  end
+
+  # Redirect to a summary page or a confirmation page
+  redirect_to course_quizzes_path(@course), notice: "Your answers have been submitted successfully!"
+end
+
+
+   def quiz_statistics
+    @quizzes = @course.quizzes.includes(:quiz_attempts)
+    
+    @student_attempts = QuizAttempt.joins(:quiz)
+                                   .where(quiz: @quizzes)
+                                   .group(:student_id)
+                                   .count
+
+    @students_passed = QuizAttempt.joins(:quiz)
+                                  .where(quiz: @quizzes)
+                                  .where("quiz_attempts.answer = quizzes.answer")
+                                  .group(:student_id)
+                                  .count
+  end
+
+
   private
 
   def set_quiz
     @quiz = Quiz.find(params[:id])
+  end
+
+  def set_course
+    @course = Course.find(params[:course_id])
   end
 
   def quiz_params
