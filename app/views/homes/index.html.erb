@@ -1,24 +1,51 @@
 <% if user_signed_in? %>
+  <!-- Dashboard for Signed-In Users -->
   <div class="dashboard">
     <h2>Welcome, <%= current_user.name || current_user.email %>!</h2>
-    <div class="btn-group">
+    <div class="dashboard-content">
       <% if current_user.role == 'teacher' %>
-        <div class="button-group">
-          <%= link_to "Add Course", new_course_path(teacher_id: current_user.id), class: 'btn btn-primary' %>
-          <%= link_to "View All Courses", courses_path, class: 'btn btn-primary' %>
-          
+        <!-- Teacher Dashboard -->
+        <div class="teacher-dashboard">
+          <h3>Teacher Dashboard</h3>
+          <div class="actions">
+            <%= link_to "Add Course", new_course_path(teacher_id: current_user.id), class: 'btn btn-primary' %>
+            <%= link_to "View All Courses", courses_path, class: 'btn btn-secondary' %>
+          </div>
+          <div class="course-list">
+            <% @courses.each do |course| %>
+              <div class="course-item">
+                <span class="course-title"><%= course.title %></span>
+                <%= link_to "View Students", enrolled_students_course_path(course), class: 'btn btn-small' %>
+              </div>
+            <% end %>
+          </div>
         </div>
       <% elsif current_user.role == 'student' %>
-        <div class="button-group">
-          <%= link_to "Go to Dashboard", student_dashboard_path, class: 'btn btn-primary' %>
-          
+        <!-- Student Dashboard -->
+        <div class="student-dashboard">
+          <h3>Student Dashboard</h3>
+          <div class="actions">
+            <%= link_to "Go to Dashboard", student_dashboard_path, class: 'btn btn-primary' %>
+          </div>
+          <div class="enrolled-courses">
+            <h4>Your Enrolled Courses</h4>
+            <% if @enrolled_courses.any? %>
+              <% @enrolled_courses.each do |course| %>
+                <div class="course-item">
+                  <span class="course-title"><%= course.title %></span>
+                  <%= link_to "View Course", course_path(course), class: 'btn btn-small' %>
+                </div>
+              <% end %>
+            <% else %>
+              <p>You are not enrolled in any courses yet.</p>
+            <% end %>
+          </div>
         </div>
-      <% else %>
-        <p>No course available.</p>
       <% end %>
     </div>
   </div>
 <% else %>
+  <!-- Landing Page for Non-Signed-In Users -->
   <div class="landing-page">
     <div class="hero">
       <h1>Welcome to the Learning Platform</h1>
@@ -31,142 +58,204 @@
           <img src="image1.webp" alt="Studying Image" class="hero-image">
         </div>
       </div>
+      <div class="cta-buttons">
+        <%= link_to "Sign Up", new_user_registration_path, class: 'btn btn-primary' %>
+        <%= link_to "Log In", new_user_session_path, class: 'btn btn-secondary' %>
+      </div>
     </div>
   </div>
 <% end %>
 
 <style>
-  body {
-    font-family: 'Arial', sans-serif;
-    margin: 0;
-    padding: 0;
-    background: #f4f4f4;
-    color: #333;
-  }
 
+/* General Styles */
+body {
+  font-family: 'Arial', sans-serif;
+  margin: 0;
+  padding: 0;
+  background: #f4f4f9;
+  color: #333;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+/* Dashboard Styles */
+.dashboard {
+  text-align: center;
+  padding: 40px 20px;
+  background: linear-gradient(135deg, #2575fc, #6a11cb);
+  border-radius: 12px;
+  margin: 40px auto;
+  max-width: 1200px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+  color: white;
+}
+
+.dashboard h2 {
+  font-size: 2.2em;
+  margin-bottom: 20px;
+  font-weight: bold;
+}
+
+.dashboard-content {
+  background: white;
+  padding: 20px;
+  border-radius: 10px;
+  margin-top: 20px;
+  color: #333;
+}
+
+.teacher-dashboard, .student-dashboard {
+  text-align: left;
+}
+
+.actions {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.course-list, .enrolled-courses {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 15px;
+}
+
+.course-item {
+  background: #f9f9f9;
+  padding: 15px;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.course-title {
+  font-weight: bold;
+}
+
+.btn {
+  display: inline-block;
+  padding: 10px 20px;
+  border-radius: 6px;
+  font-weight: bold;
+  transition: all 0.3s ease-in-out;
+  font-size: 14px;
+  text-align: center;
+  border: none;
+  cursor: pointer;
+}
+
+.btn-primary {
+  background: #2575fc;
+  color: white;
+}
+
+.btn-secondary {
+  background: #6a11cb;
+  color: white;
+}
+
+.btn-small {
+  padding: 5px 10px;
+  font-size: 12px;
+}
+
+.btn:hover {
+  opacity: 0.9;
+  transform: translateY(-2px);
+}
+
+/* Landing Page Styles */
+.landing-page {
+  text-align: center;
+}
+
+.hero {
+  padding: 50px 20px;
+  background: linear-gradient(to right, #667eea, #764ba2);
+  border-radius: 12px;
+  margin-top: 30px;
+  width: 100%;
+  min-height: 500px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+}
+
+.hero h1 {
+  font-size: 2.5em;
+  margin-bottom: 15px;
+  font-weight: bold;
+  color: white;
+}
+
+.hero p {
+  font-size: 1.2em;
+  margin-bottom: 25px;
+  color: white;
+}
+
+.hero-images {
+  display: flex;
+  justify-content: center;
+  overflow: hidden;
+  position: relative;
+  width: 100%;
+  max-width: 600px;
+  margin: auto;
+}
+
+.image-slider {
+  display: flex;
+  width: 400%;
+  animation: slide 12s infinite;
+}
+
+.hero-image {
+  width: 100%;
+  max-width: 250px;
+  height: auto;
+  object-fit: cover;
+  border-radius: 10px;
+  margin: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.cta-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+  margin-top: 30px;
+}
+
+@keyframes slide {
+  0% { transform: translateX(0); }
+  25% { transform: translateX(-100%); }
+  50% { transform: translateX(-200%); }
+  75% { transform: translateX(-300%); }
+  100% { transform: translateX(0); }
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
   .dashboard {
-    text-align: center;
-    padding: 40px 20px;
-    background: linear-gradient(135deg, #2575fc, #6a11cb );
-    border-radius: 12px;
-    margin: 40px auto;
-    max-width: 900px;
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
-    color: white;
+    margin: 20px;
   }
 
-  .dashboard h2 {
-    font-size: 2.2em;
-    margin-bottom: 20px;
-    font-weight: bold;
-  }
-
-  .btn-group {
-    display: flex;
-    justify-content: center;
-    gap: 20px;
-    flex-wrap: wrap;
+  .actions {
+    flex-direction: column;
   }
 
   .btn {
-    display: inline-block;
-    padding: 12px 24px;
-    border-radius: 6px;
-    text-decoration: none;
-    font-weight: bold;
-    transition: all 0.3s ease-in-out;
-    font-size: 16px;
-    text-align: center;
-    background-color: rgba(255, 255, 255, 0.1);
-    color: white;
-    border: 2px solid rgba(255, 255, 255, 0.2);
-  }
-
-  .btn:hover {
-    background-color: white;
-    color: #2575fc;
-    border-color: white;
-    transform: translateY(-2px);
-  }
-
-  .button-group {
-    display: flex;
-    gap: 20px;
-    justify-content: center;
-    flex-wrap: wrap;
-  }
-
-  .hero {
-    text-align: center;
-    padding: 50px 20px;
-    background: linear-gradient(to right, #667eea, #764ba2);
-    border-radius: 12px;
-    margin-top: 30px;
     width: 100%;
-    min-height: 500px;
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+    margin-bottom: 10px;
   }
 
   .hero h1 {
-    font-size: 2.5em;
-    margin-bottom: 15px;
-    font-weight: bold;
-    color: white;
+    font-size: 2em;
   }
-
-  .hero p {
-    font-size: 1.2em;
-    margin-bottom: 25px;
-    color: white;
-  }
-
-  .hero-images {
-    display: flex;
-    justify-content: center;
-    overflow: hidden;
-    position: relative;
-    width: 100%;
-    max-width: 600px;
-    margin: auto;
-  }
-
-  .image-slider {
-    display: flex;
-    width: 400%;
-    animation: slide 12s infinite;
-  }
-
-  .hero-image {
-    width: 100%;
-    max-width: 250px;
-    height: auto;
-    object-fit: cover;
-    border-radius: 10px;
-    margin: 10px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-  }
-
-  @keyframes slide {
-    0% { transform: translateX(0); }
-    25% { transform: translateX(-100%); }
-    50% { transform: translateX(-200%); }
-    75% { transform: translateX(-300%); }
-    100% { transform: translateX(0); }
-  }
-
-  @media (max-width: 768px) {
-    .btn-group {
-      flex-direction: column;
-      align-items: center;
-    }
-
-    .hero h1 {
-      font-size: 2em;
-    }
-
-    .btn {
-      width: 100%;
-      margin-bottom: 10px;
-    }
-  }
+}
 </style>

@@ -17,8 +17,7 @@ class CertificatesController < ApplicationController
 
   # GET /certificates/1/edit
   def edit
-  endadmin/admin_users/1
-
+  end
   # POST /certificates or /certificates.json
   def create
     @certificate = Certificate.new(certificate_params)

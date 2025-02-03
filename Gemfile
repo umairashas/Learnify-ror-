@@ -55,10 +55,11 @@ group :test do
   gem "capybara"
   gem "selenium-webdriver"
 end
-gem 'devise'
+gem "devise"
 gem "tailwindcss-ruby", "~> 4.0"
 gem "tailwindcss-rails", "~> 3.3"
-gem 'cancancan'
-gem 'pg'
-gem 'rails_admin'
+gem "cancancan"
+gem "pg"
+gem "rails_admin"
 gem "sassc-rails"
+gem 'rails-erd'

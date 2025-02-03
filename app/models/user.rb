@@ -10,14 +10,14 @@ class User < ApplicationRecord
 
   # Callback to create a student record after user creation
   after_create :create_student_record
-  
+
   private
 
   def create_student_record
-    if role == 'teacher'
+    if role == "teacher"
       Teacher.create(user_id: id)
     end
-    if role == 'student'
+    if role == "student"
       Student.create(name: name, email: email, phone_number: phone_number, user_id: id)
     end
   end

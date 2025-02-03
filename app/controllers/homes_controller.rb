@@ -1,5 +1,5 @@
 class HomesController < ApplicationController
-  before_action :authenticate_user!, except: [:index, :about, :contact]
+  before_action :authenticate_user!, except: [ :index, :about, :contact ]
 
   def index
     @courses = Course.all
@@ -17,6 +17,16 @@ class HomesController < ApplicationController
 
   def profile
     @user = current_user
+    @course = Course.find_by(id: params[:id])
+    @teacher = current_user.teacher
+    if @teacher
+     @unique_students = @teacher.students
+    .select("students.id, students.name, students.email, COUNT(DISTINCT courses.id) AS course_count")
+    .joins(:courses)
+    .group("students.id, students.name, students.email")
+    else
+      flash[:alert] = "You are not assigned as a teacher."
+      redirect_to profile_path
+end
   end
-
 end

@@ -3,7 +3,7 @@ class QuizzesController < ApplicationController
 
   # GET /quizzes
   def index
-    if current_user.role == 'teacher'
+    if current_user.role == "teacher"
       @teacher = current_user.teacher
       @course = @teacher.courses.find_by(id: params[:course_id]) # Ensure only quizzes for the correct course are fetched
       if @course.nil?
@@ -24,7 +24,7 @@ class QuizzesController < ApplicationController
 
   # GET /quizzes/new
   def new
-    if current_user.role == 'teacher'
+    if current_user.role == "teacher"
       @teacher = current_user.teacher
       @course = @teacher.courses.find_by(id: params[:course_id]) # Ensure correct course is fetched
       if @course.nil?
@@ -39,7 +39,7 @@ class QuizzesController < ApplicationController
 
   # POST /quizzes
   def create
-    if current_user.role == 'teacher'
+    if current_user.role == "teacher"
       @teacher = current_user.teacher
       @course = @teacher.courses.find_by(id: params[:quiz][:course_id]) # Ensure correct course
 

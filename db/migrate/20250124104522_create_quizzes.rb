@@ -8,7 +8,7 @@ class CreateQuizzes < ActiveRecord::Migration[7.2]
       t.string :option_b, null: false
       t.string :option_c, null: false
       t.string :option_d, null: false
-      t.string :answer, null: false 
+      t.string :answer, null: false
       t.timestamps
     end
   end

@@ -3,14 +3,14 @@ class CoursesController < ApplicationController
 
   # GET /courses or /courses.json
   def index
-    if current_user.role == 'teacher'
+    if current_user.role == "teacher"
     @teacher = current_user.teacher # Get the teacher associated with the current user
     @courses = @teacher.courses # Fetch courses added by the teacher
-  elsif current_user.role == 'student'
+    elsif current_user.role == "student"
     @courses = Course.all # Admins can see all courses
-  else
+    else
     redirect_to root_path, alert: "You are not authorized to view this page."
-  end
+    end
   end
 
   # GET /courses/1 or /courses/1.json
@@ -27,20 +27,17 @@ class CoursesController < ApplicationController
 
   # POST /courses or /courses.json
   def create
-   
-    if current_user.role == 'teacher'
+    if current_user.role == "teacher"
     @teacher = current_user.teacher # Get the teacher associated with the current user
-    @course = Course.new(course_params.merge(teacher_id: @teacher.id)) 
+    @course = Course.new(course_params.merge(teacher_id: @teacher.id))
     if @course.save
-      redirect_to courses_path, notice: "Course was successfully created." 
+      redirect_to courses_path, notice: "Course was successfully created."
     else
-      render :new, status: :unprocessable_entity 
+      render :new, status: :unprocessable_entity
     end
-  else
+    else
     redirect_to root_path, alert: "You are not authorized to create a course."
-  end
-   
-    
+    end
   end
 
   def edit
@@ -94,6 +91,11 @@ end
     redirect_to enroll_course_path, notice: "Unenrolled from #{course.title} successfully!"
   end
 
+  def enrolled_students
+  @course = Course.find(params[:id])
+  @students = @course.students  # Assuming a `has_many :students` association
+  end
+
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_course
@@ -104,6 +106,4 @@ end
     def course_params
       params.require(:course).permit(:title, :description, :category, :video, :teacher_id)
     end
-
-   
-  end
+end

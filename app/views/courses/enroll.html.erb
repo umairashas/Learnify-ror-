@@ -2,31 +2,31 @@
 <div class="dashboard">
   <h1>Enroll in Courses</h1>
 
-  <% if @courses.any? %>
-    <div class="course-list">
-      <% @courses.each do |course| %>
-        <div class="course-item">
-          <div class="course-info">
-            <span class="course-title"><%= course.title %></span>
-            <span class="teacher-name">by <%= course.teacher.user.name %></span>
+    <% if @courses.any? %>
+      <div class="course-list">
+        <% @courses.each do |course| %>
+          <div class="course-item">
+            <div class="course-info">
+              <span class="course-title"><%= course.title %></span>
+              <span class="teacher-name">by <%= course.teacher.user.name %></span>
+            </div>
+            
+            <div class="course-actions">
+              <% if current_user.student.courses.include?(course) %>
+                <%= button_to "Unenroll", unenroll_course_path(course), method: :delete, class: 'btn unenroll-btn' %>
+              <% else %>
+                <%= button_to "Enroll", enroll_in_course_path(course), method: :post, class: 'btn enroll-btn' %>
+              <% end %>
+            </div>
           </div>
-          
-          <div class="course-actions">
-            <% if current_user.student.courses.include?(course) %>
-              <%= button_to "Unenroll", unenroll_course_path(course), method: :delete, class: 'btn unenroll-btn' %>
-            <% else %>
-              <%= button_to "Enroll", enroll_in_course_path(course), method: :post, class: 'btn enroll-btn' %>
-            <% end %>
-          </div>
-        </div>
-      <% end %>
-    </div>
-  <% else %>
-    <p class="no-course">No courses available for enrollment.</p>
-  <% end %>
+        <% end %>
+      </div>
+    <% else %>
+      <p class="no-course">No courses available for enrollment.</p>
+    <% end %>
 
-  <%= link_to "Back to Dashboard", student_dashboard_path, class: 'btn back-btn' %>
-</div>
+    <%= link_to "Back to Dashboard", student_dashboard_path, class: 'btn back-btn' %>
+  </div>
 
 <style>
   body {
