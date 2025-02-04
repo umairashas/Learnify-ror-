@@ -1,0 +1,5 @@
+<h1>Quiz Result</h1>
+<p>Your score: <%= @quiz_result[:answers] %> / <%= @quiz_result[:total_questions] %> 
+   (<%= @quiz_result[:percentage_score].round(2) %>%)</p>
+
+<%= link_to "Back to Course", course_path(@course), class: "btn btn-secondary" %>

@@ -12,7 +12,7 @@ Rails.application.routes.draw do
   # Courses routes
   resources :courses do
     member do
-    get :enrolled_students
+    get :enrolled_students, :quiz_result
   end
   post :complete_video, on: :member
     resources :quizzes do 

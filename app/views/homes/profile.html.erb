@@ -24,6 +24,7 @@
     <th>Role</th>
     <td><%= @user.role %></td>
   </tr>
+
   <% if current_user.teacher.present? %>
     <tr>
       <th>Total Courses Added</th>
@@ -58,12 +59,21 @@
       <p>No students found.</p>
     <% end %>
   <% end %>
+
+  <% if current_user.student? %>
+    <tr>
+      <th>Courses Enrolled</th>
+      <td><%= current_user.student.courses.count %></td>
+    </tr>
+    
+  <% end %>
 </table>
 
 <%= link_to "Edit Profile", edit_user_registration_path, class: "btn" %>
 
 </body>
 </html>
+
 <style>
 /* Reset margins and padding for the body */
 body {

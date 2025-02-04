@@ -1,14 +1,21 @@
 <h1>Complete Quiz</h1>
 
-<%= form_with url: submit_course_quiz_path(@course, @quiz), method: :post do |form| %>
+<%= form_with url: submit_course_quiz_path(@course), method: :post do |form| %>
   <% @course.quizzes.each_with_index do |quiz, index| %>
     <h3>Q<%= index + 1 %>: <%= quiz.question %></h3>
 
     <div>
-      <%= form.radio_button "answer_#{quiz.id}", quiz.option_a %> <%= quiz.option_a %><br>
-      <%= form.radio_button "answer_#{quiz.id}", quiz.option_b %> <%= quiz.option_b %><br>
-      <%= form.radio_button "answer_#{quiz.id}", quiz.option_c %> <%= quiz.option_c %><br>
-      <%= form.radio_button "answer_#{quiz.id}", quiz.option_d %> <%= quiz.option_d %><br>
+      <%= form.radio_button "answer_#{quiz.id}", quiz.option_a, id: "answer_#{quiz.id}_a" %>
+      <%= label_tag "answer_#{quiz.id}_a", quiz.option_a %><br>
+
+      <%= form.radio_button "answer_#{quiz.id}", quiz.option_b, id: "answer_#{quiz.id}_b" %>
+      <%= label_tag "answer_#{quiz.id}_b", quiz.option_b %><br>
+
+      <%= form.radio_button "answer_#{quiz.id}", quiz.option_c, id: "answer_#{quiz.id}_c" %>
+      <%= label_tag "answer_#{quiz.id}_c", quiz.option_c %><br>
+
+      <%= form.radio_button "answer_#{quiz.id}", quiz.option_d, id: "answer_#{quiz.id}_d" %>
+      <%= label_tag "answer_#{quiz.id}_d", quiz.option_d %><br>
     </div>
     <br>
   <% end %>

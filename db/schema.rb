@@ -44,10 +44,10 @@ ActiveRecord::Schema[7.2].define(version: 2025_02_03_203719) do
 
   create_table "certificates", force: :cascade do |t|
     t.bigint "student_id", null: false
-    t.bigint "courses_id", null: false
+    t.bigint "course_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["courses_id"], name: "index_certificates_on_courses_id"
+    t.index ["course_id"], name: "index_certificates_on_course_id"
     t.index ["student_id"], name: "index_certificates_on_student_id"
   end
 
@@ -129,7 +129,7 @@ ActiveRecord::Schema[7.2].define(version: 2025_02_03_203719) do
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
-  add_foreign_key "certificates", "courses", column: "courses_id"
+  add_foreign_key "certificates", "courses"
   add_foreign_key "certificates", "students"
   add_foreign_key "courses", "teachers"
   add_foreign_key "quizzes", "courses"

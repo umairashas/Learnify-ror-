@@ -60,10 +60,6 @@
           <img src="image1.webp" alt="Studying Image" class="hero-image">
         </div>
       </div>
-      <div class="cta-buttons">
-        <%= link_to "Sign Up", new_user_registration_path, class: 'btn btn-primary' %>
-        <%= link_to "Log In", new_user_session_path, class: 'btn btn-secondary' %>
-      </div>
     </div>
   </div>
 <% end %>
@@ -226,12 +222,6 @@ a {
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 
-.cta-buttons {
-  display: flex;
-  justify-content: center;
-  gap: 15px;
-  margin-top: 30px;
-}
 
 @keyframes slide {
   0% { transform: translateX(0); }

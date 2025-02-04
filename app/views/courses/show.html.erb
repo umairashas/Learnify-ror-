@@ -11,69 +11,57 @@
     </div>
   <% end %>
 
-  <script>
-    document.addEventListener('DOMContentLoaded', function() {
-      const video = document.getElementById('course-video');
-      const isStudent = <%= current_user.student? %>;
-      const isFirstView = <%= !session["completed_video_#{@course.id}"] %>; // Check if it's the first viewing
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    const video = document.getElementById('course-video');
+    const isStudent = <%= current_user.student? %>;
 
-      if (isStudent) {
-        if (isFirstView) {
-          // First viewing: Prevent skipping and seeking
-          video.currentTime = 0;
+    // Ensure StudentCourse check is only performed for students
+    <% if current_user.student? %>
+      const hasWatchedVideo = <%= StudentCourse.exists?(student_id: current_user.student.id, course_id: @course.id, video_completed: true) %>;
+    <% else %>
+      const hasWatchedVideo = true; // Teachers should not be restricted
+    <% end %>
 
-          // Prevent seeking
-          video.addEventListener('seeked', function() {
-            if (video.currentTime > 0) {
-              video.currentTime = 0;
-            }
-          });
+    if (isStudent) {
+      if (!hasWatchedVideo) {
+        video.currentTime = 0;
 
-          // Prevent skipping
-          video.addEventListener('timeupdate', function() {
-            if (video.currentTime > 0 && video.seeking) {
-              video.currentTime = 0;
-            }
-          });
-
-          // Mark video as completed when finished
-          video.addEventListener('ended', function() {
-            markVideoAsCompleted();
-          });
-        } else {
-          // Subsequent viewings: Allow skipping and seeking
-          video.removeAttribute('controlsList'); // Allow all controls
-        }
-
-        // Debug button to mark video as completed
-        const debugButton = document.createElement('button');
-        debugButton.innerText = 'Mark Video as Completed (Debug)';
-        debugButton.style.marginTop = '10px';
-        debugButton.addEventListener('click', function() {
-          markVideoAsCompleted();
+        // Prevent seeking
+        video.addEventListener('seeked', function() {
+          if (video.currentTime > 0) {
+            video.currentTime = 0;
+          }
         });
-        document.querySelector('.video-container').appendChild(debugButton);
+
+        // Prevent skipping
+        video.addEventListener('timeupdate', function() {
+          if (video.currentTime > 0 && video.seeking) {
+            video.currentTime = 0;
+          }
+        });
 
         // Disable right-click to prevent downloading
         video.addEventListener('contextmenu', function(event) {
           event.preventDefault();
         });
-      }
 
-      // Function to mark video as completed
-      function markVideoAsCompleted() {
-        fetch("<%= complete_video_course_path(@course) %>", {
-          method: "POST",
-          headers: { "X-CSRF-Token": "<%= form_authenticity_token %>" }
-        }).then(response => response.json())
-          .then(data => {
-            alert(data.message);
-            location.reload(); // Reload to show quizzes
-          });
+        // Mark video as completed when finished
+        video.addEventListener('ended', function() {
+          fetch("<%= complete_video_course_path(@course) %>", {
+            method: "POST",
+            headers: { "X-CSRF-Token": "<%= form_authenticity_token %>" }
+          }).then(response => response.json())
+            .then(data => {
+              alert(data.message);
+              location.reload(); // Reload to enable seeking next time
+            });
+        });
       }
-    });
-  </script>
-</div>
+    }
+  });
+</script>
+
 
   <div class="course-actions">
     <% if current_user.teacher %>
@@ -89,25 +77,32 @@
 
 <% if current_user.student? %>
   <% student_course = StudentCourse.find_by(student_id: current_user.student.id, course_id: @course.id) %>
+
   <% if student_course&.video_completed %>
     <% if @course.quizzes.exists? %>
-      <h1>Your Quizzes</h1>
-      <ul>
-        <% @course.quizzes.each do |quiz| %>
-          <% unless QuizAttempt.exists?(student_id: current_user.student.id, quiz_id: quiz.id) %>
-            <li>
-              <%= link_to "Attempt Quiz: #{quiz.question}", attempt_course_quiz_path(@course, quiz) %>
-            </li>
-          <% end %>
+      <% first_quiz = @course.quizzes.detect do |quiz| %>
+        <% !QuizAttempt.exists?(student_id: current_user.student.id, quiz_id: quiz.id) %>
+      <% end %>
+
+      <% if first_quiz %>
+        <%= form_with url: attempt_course_quiz_path(@course, first_quiz), method: :get, local: true do %>
+          <%= submit_tag "Start Quiz", class: "btn btn-primary" %>
         <% end %>
-      </ul>
+      <% else %>
+        <p><strong>All quizzes have been attempted.</strong></p>
+        <%= link_to "View Quiz Results", quiz_result_course_path(@course), class: "btn btn-info" %>
+      <% end %>
     <% else %>
       <p><strong>The quiz for this course does not exist.</strong></p>
     <% end %>
   <% else %>
+    <%# Reset quiz attempts if video is marked incomplete %>
+    <% QuizAttempt.where(student_id: current_user.student.id, quiz_id: @course.quizzes.ids).destroy_all %>
     <p><strong>Watch the full video to unlock quizzes.</strong></p>
   <% end %>
 <% end %>
+
+
 
 
 <style>

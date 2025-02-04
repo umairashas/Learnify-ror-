@@ -114,7 +114,7 @@ def submit
     if answer.present?
       # Save the student's answer and score
       QuizAttempt.create(student_id: current_user.student.id, quiz_id: quiz.id, answer: answer, score: (answer == quiz.answer ? 1 : 0))
-      correct_answers += 1 if answer == quiz.answer
+      answers += 1 if answer == quiz.answer
     else
       flash[:alert] = "You did not answer all the questions. Please try again."
       redirect_to attempt_course_quiz_path(@course, @quiz) and return
@@ -128,7 +128,7 @@ def submit
   # QuizAttempt.create(student_id: current_user.student.id, quiz_id: @quiz.id, score: percentage_score)
 
   # Display the percentage score to the student
-  flash[:notice] = "Quiz submitted successfully! Your score: #{correct_answers}/#{total_questions} (#{percentage_score.round(2)}%)"
+  flash[:notice] = "Quiz submitted successfully! Your score: #{answers}/#{total_questions} (#{percentage_score.round(2)}%)"
   redirect_to course_path(@course)
 end
 
@@ -147,6 +147,7 @@ end
                                   .group(:student_id)
                                   .count
   end
+
 
 
   private

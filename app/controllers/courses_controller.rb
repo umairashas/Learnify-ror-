@@ -96,10 +96,34 @@ end
   @students = @course.students  # Assuming a `has_many :students` association
   end
 
-  def complete_video
-  session["completed_video_#{params[:id]}"] = true
-  render json: { message: "Video marked as completed!" }
+
+def complete_video
+  student_course = StudentCourse.find_by(student_id: current_user.student.id, course_id: params[:id])
+
+  if student_course
+    student_course.update(video_completed: true)
+    render json: { message: "Video marked as completed!" }
+  else
+    render json: { error: "StudentCourse record not found" }, status: :not_found
   end
+end
+
+
+
+def quiz_result
+  @course = Course.find_by(id: params[:id])
+  # Find the student's quiz attempts
+  @quiz_attempts = QuizAttempt.where(student_id: current_user.student.id, quiz_id: @course.quizzes.ids)
+
+  # Calculate the score
+  total_questions = @course.quizzes.count
+  correct_answers = @quiz_attempts.where('score = ?', 1).count
+  percentage_score = (correct_answers.to_f / total_questions) * 100
+
+  # Display the results
+  @quiz_result = { answers: correct_answers, total_questions: total_questions, percentage_score: percentage_score }
+end
+
 
 
   private
