@@ -6,7 +6,9 @@ class CertificatesController < ApplicationController
   # GET /certificates/1 or /certificates/1.json
    
   def show
-      @student = Student.find_by(id: params[:student_id]) # Adjust if needed
+    @course = Course.find(params[:course_id])
+    @certificate = Certificate.find_by(student_id: current_user.student.id, course_id: @course.id)
+    @student = Student.find_by(id: params[:student_id]) # Adjust if needed
     respond_to do |format|
       format.html
       format.pdf do
@@ -16,18 +18,10 @@ class CertificatesController < ApplicationController
                                template: "certificates/show",
                                formats: [:html]
 
-        send_data pdf, filename: "certificate.pdf", type: "application/pdf", disposition: "inline"
+        send_data pdf, filename: "certificate.pdf", type: "application/pdf", disposition: "attachment"
       end
     end
   end
-
-
-
-
-
-
-
-
 
   # GET /certificates/new
   def new

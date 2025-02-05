@@ -1,0 +1,5 @@
+	<!-- app/views/teacher_mailer/welcome_teacher.html.erb -->
+	<h1>Welcome to Our Platform, <%= current_user.teacher.name %>!</h1>
+	<p>Dear <%= current_user.teacher.name %>,</p>
+	<p>We're excited to have you as a teacher on our platform. Please log in to get started.</p>
+	<a href="<%= @url %>">Login here</a>

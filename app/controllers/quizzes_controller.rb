@@ -97,54 +97,41 @@ before_action :set_course
     end
 
    # In your QuizzesController
-  def submit
-    @course = Course.find(params[:course_id])
-    total_questions = @course.quizzes.count
-    answers = 0
+ def submit
+  @course = Course.find(params[:course_id])
+  total_questions = @course.quizzes.count
+  answers = 0
 
-    # Find or create the student_course record
-    student_course = StudentCourse.find_or_create_by(student_id: current_user.student.id, course_id: @course.id)
+  student = current_user.student
+  student_course = StudentCourse.find_or_create_by(student_id: student.id, course_id: @course.id)
 
-    # Mark the video as completed in the database
-    student_course.update(video_completed: true)
+  # Ensure the student can take the quiz only once
+  if student.quiz_attempts.where(quiz_id: @course.quizzes.pluck(:id)).exists?
+    flash[:alert] = "You have already completed this quiz."
+    redirect_to course_path(@course) and return
+  end
 
-    # Process answers and calculate correct answers
-    @course.quizzes.each do |quiz|
-      answer = params["answer_#{quiz.id}"]
-      if answer.present?
-        # Save the student's answer and score
-        QuizAttempt.create(student_id: current_user.student.id, quiz_id: quiz.id, answer: answer, score: (answer == quiz.answer ? 1 : 0))
-        answers += 1 if answer == quiz.answer
-      else
-        flash[:alert] = "You did not answer all the questions. Please try again."
-        redirect_to attempt_course_quiz_path(@course, quiz) and return
-      end
+  # Process answers and calculate correct ones
+  @course.quizzes.each do |quiz|
+    answer = params["answer_#{quiz.id}"]
+
+    if answer.present?
+      QuizAttempt.create(student_id: student.id, quiz_id: quiz.id, answer: answer, score: (answer == quiz.answer ? 1 : 0))
+      answers += 1 if answer == quiz.answer
+    else
+      flash[:alert] = "You did not answer all the questions. Please try again."
+      redirect_to attempt_course_quiz_path(@course, quiz) and return
     end
+  end
 
-    # Calculate the percentage score
-    percentage_score = (answers.to_f / total_questions) * 100
+  percentage_score = (answers.to_f / total_questions) * 100
+  flash[:notice] = "Quiz submitted successfully! Your score: #{answers}/#{total_questions} (#{percentage_score.round(2)}%)"
 
-    # Save the percentage score (optional)
-    # QuizAttempt.create(student_id: current_user.student.id, quiz_id: @quiz.id, score: percentage_score)
-
-    # Display the percentage score to the student
-    flash[:notice] = "Quiz submitted successfully! Your score: #{answers}/#{total_questions} (#{percentage_score.round(2)}%)"
-    
-    if current_user.student.completed_quizzes?(@course) && current_user.student.completed_video?(@course)
-  certificate = Certificate.find_or_create_by(student_id: current_user.student.id, course_id: @course.id)
-
-  flash[:notice] = "Congratulations! You have completed the course. Your certificate is ready."
-  redirect_to course_certificate_path(@course, certificate) # Redirect to certificate page
-else
-  flash[:alert] = "Complete all quizzes and the video to unlock the certificate."
-  redirect_to course_path(@course) # Redirect to the course page
+  # Redirect back to the course page instead of generating the certificate
+  redirect_to course_path(@course)
 end
 
 
-
-    # Redirect to the course page
-    redirect_to course_path(@course)
-  end
 
 
 

@@ -19,7 +19,8 @@ class User < ApplicationRecord
 
   def create_student_record
     if role == "teacher"
-      Teacher.create(user_id: id)
+      teacher = Teacher.create(user_id: id)
+      UserMailer.welcome_teacher(teacher).deliver_now
     end
     if role == "student"
       Student.create(name: name, email: email, phone_number: phone_number, user_id: id)
