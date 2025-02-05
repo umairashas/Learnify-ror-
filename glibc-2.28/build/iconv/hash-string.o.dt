@@ -1,0 +1,18 @@
+/home/ror/Umair/Learnify-ror-/glibc-2.28/build/iconv/hash-string.o: \
+ ../intl/hash-string.c ../include/stdc-predef.h \
+ /home/ror/Umair/Learnify-ror-/glibc-2.28/build/libc-modules.h \
+ ../include/libc-symbols.h \
+ /home/ror/Umair/Learnify-ror-/glibc-2.28/build/config.h \
+ ../sysdeps/generic/symbol-hacks.h ../intl/hash-string.h
+
+../include/stdc-predef.h:
+
+/home/ror/Umair/Learnify-ror-/glibc-2.28/build/libc-modules.h:
+
+../include/libc-symbols.h:
+
+/home/ror/Umair/Learnify-ror-/glibc-2.28/build/config.h:
+
+../sysdeps/generic/symbol-hacks.h:
+
+../intl/hash-string.h:

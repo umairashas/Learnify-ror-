@@ -63,3 +63,6 @@ gem "pg"
 gem "rails_admin"
 gem "sassc-rails"
 gem 'rails-erd'
+gem 'dotenv-rails'
+gem 'wicked_pdf'
+gem 'wkhtmltopdf-binary'

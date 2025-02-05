@@ -2,7 +2,6 @@ Rails.application.routes.draw do
   mount RailsAdmin::Engine => "/admin", as: "rails_admin"
   root "homes#index"
 
-  resources :certificates
 
   # Enroll routes (placed before `resources :courses`)
   get "courses/enroll", to: "courses#enroll", as: "enroll_course"
@@ -11,10 +10,11 @@ Rails.application.routes.draw do
 
   # Courses routes
   resources :courses do
+    resources :certificates
     member do
     get :enrolled_students, :quiz_result
   end
-  post :complete_video, on: :member
+    post :complete_video, on: :member
     resources :quizzes do 
        collection do
       get 'quiz_statistics'

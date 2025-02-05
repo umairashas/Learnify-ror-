@@ -1,0 +1,24 @@
+/home/ror/Umair/Learnify-ror-/glibc-2.28/build/math/s_matherr.os: \
+ ../sysdeps/ieee754/s_matherr.c ../include/stdc-predef.h \
+ /home/ror/Umair/Learnify-ror-/glibc-2.28/build/libc-modules.h \
+ ../include/libc-symbols.h \
+ /home/ror/Umair/Learnify-ror-/glibc-2.28/build/config.h \
+ ../sysdeps/generic/symbol-hacks.h math-svid-compat.h \
+ ../include/shlib-compat.h \
+ /home/ror/Umair/Learnify-ror-/glibc-2.28/build/abi-versions.h
+
+../include/stdc-predef.h:
+
+/home/ror/Umair/Learnify-ror-/glibc-2.28/build/libc-modules.h:
+
+../include/libc-symbols.h:
+
+/home/ror/Umair/Learnify-ror-/glibc-2.28/build/config.h:
+
+../sysdeps/generic/symbol-hacks.h:
+
+math-svid-compat.h:
+
+../include/shlib-compat.h:
+
+/home/ror/Umair/Learnify-ror-/glibc-2.28/build/abi-versions.h:

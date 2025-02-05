@@ -1,0 +1,16 @@
+/home/ror/Umair/Learnify-ror-/glibc-2.28/build/math/t_exp.os: \
+ ../sysdeps/ieee754/dbl-64/t_exp.c ../include/stdc-predef.h \
+ /home/ror/Umair/Learnify-ror-/glibc-2.28/build/libc-modules.h \
+ ../include/libc-symbols.h \
+ /home/ror/Umair/Learnify-ror-/glibc-2.28/build/config.h \
+ ../sysdeps/generic/symbol-hacks.h
+
+../include/stdc-predef.h:
+
+/home/ror/Umair/Learnify-ror-/glibc-2.28/build/libc-modules.h:
+
+../include/libc-symbols.h:
+
+/home/ror/Umair/Learnify-ror-/glibc-2.28/build/config.h:
+
+../sysdeps/generic/symbol-hacks.h:

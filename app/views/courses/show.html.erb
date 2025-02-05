@@ -91,6 +91,24 @@
       <% else %>
         <p><strong>All quizzes have been attempted.</strong></p>
         <%= link_to "View Quiz Results", quiz_result_course_path(@course), class: "btn btn-info" %>
+
+       <% student_course = StudentCourse.find_by(student_id: current_user.student.id, course_id: @course.id) %>
+
+  <% if student_course&.video_completed && @course.quizzes.exists? && QuizAttempt.where(student_id: current_user.student.id, quiz_id: @course.quizzes.ids).count == @course.quizzes.count %>
+    <% @certificate = Certificate.find_by(student_id: current_user.student.id, course_id: @course.id) %>
+
+<% if @certificate %>
+  <%= link_to "Download Certificate as PDF", course_certificate_path(@course, @certificate, format: :pdf), class: "btn btn-success" %>
+<% else %>
+  <p><strong>Your certificate is not ready yet.</strong></p>
+<% end %>
+
+
+  <% else %>
+    <p><strong>Complete the quizzes and video to unlock the certificate.</strong></p>
+  <% end %>
+
+
       <% end %>
     <% else %>
       <p><strong>The quiz for this course does not exist.</strong></p>
@@ -101,8 +119,6 @@
     <p><strong>Watch the full video to unlock quizzes.</strong></p>
   <% end %>
 <% end %>
-
-
 
 
 <style>

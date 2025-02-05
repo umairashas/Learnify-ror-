@@ -10,8 +10,12 @@ class User < ApplicationRecord
 
   # Callback to create a student record after user creation
   after_create :create_student_record
+  after_create :welcome_email
 
   private
+   def welcome_email
+        UserMailer.welcome_email(self).deliver_now
+  end
 
   def create_student_record
     if role == "teacher"

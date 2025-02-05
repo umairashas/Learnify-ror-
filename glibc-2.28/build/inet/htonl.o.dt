@@ -1,0 +1,67 @@
+/home/ror/Umair/Learnify-ror-/glibc-2.28/build/inet/htonl.o: \
+ ../sysdeps/x86_64/htonl.S ../include/stdc-predef.h \
+ /home/ror/Umair/Learnify-ror-/glibc-2.28/build/libc-modules.h \
+ ../include/libc-symbols.h \
+ /home/ror/Umair/Learnify-ror-/glibc-2.28/build/config.h \
+ ../sysdeps/generic/symbol-hacks.h \
+ ../sysdeps/unix/sysv/linux/x86_64/sysdep.h \
+ ../sysdeps/unix/sysv/linux/sysdep.h ../sysdeps/x86/bits/wordsize.h \
+ ../sysdeps/unix/sysv/linux/x86_64/kernel-features.h \
+ ../sysdeps/unix/sysv/linux/kernel-features.h \
+ ../sysdeps/unix/x86_64/sysdep.h ../sysdeps/unix/sysdep.h \
+ ../sysdeps/generic/sysdep.h ../sysdeps/generic/dwarf2.h \
+ ../sysdeps/unix/sysv/linux/sys/syscall.h \
+ /usr/include/x86_64-linux-gnu/asm/unistd.h \
+ /usr/include/x86_64-linux-gnu/asm/unistd_64.h ../sysdeps/x86_64/sysdep.h \
+ ../sysdeps/x86/sysdep.h ../sysdeps/x86_64/nptl/tls.h \
+ /home/ror/Umair/Learnify-ror-/glibc-2.28/build/tcb-offsets.h \
+ ../sysdeps/unix/sysv/linux/dl-sysdep.h ../sysdeps/generic/dl-sysdep.h \
+ ../sysdeps/generic/asm-syntax.h
+
+../include/stdc-predef.h:
+
+/home/ror/Umair/Learnify-ror-/glibc-2.28/build/libc-modules.h:
+
+../include/libc-symbols.h:
+
+/home/ror/Umair/Learnify-ror-/glibc-2.28/build/config.h:
+
+../sysdeps/generic/symbol-hacks.h:
+
+../sysdeps/unix/sysv/linux/x86_64/sysdep.h:
+
+../sysdeps/unix/sysv/linux/sysdep.h:
+
+../sysdeps/x86/bits/wordsize.h:
+
+../sysdeps/unix/sysv/linux/x86_64/kernel-features.h:
+
+../sysdeps/unix/sysv/linux/kernel-features.h:
+
+../sysdeps/unix/x86_64/sysdep.h:
+
+../sysdeps/unix/sysdep.h:
+
+../sysdeps/generic/sysdep.h:
+
+../sysdeps/generic/dwarf2.h:
+
+../sysdeps/unix/sysv/linux/sys/syscall.h:
+
+/usr/include/x86_64-linux-gnu/asm/unistd.h:
+
+/usr/include/x86_64-linux-gnu/asm/unistd_64.h:
+
+../sysdeps/x86_64/sysdep.h:
+
+../sysdeps/x86/sysdep.h:
+
+../sysdeps/x86_64/nptl/tls.h:
+
+/home/ror/Umair/Learnify-ror-/glibc-2.28/build/tcb-offsets.h:
+
+../sysdeps/unix/sysv/linux/dl-sysdep.h:
+
+../sysdeps/generic/dl-sysdep.h:
+
+../sysdeps/generic/asm-syntax.h:

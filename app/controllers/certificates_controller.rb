@@ -1,23 +1,44 @@
 class CertificatesController < ApplicationController
-  before_action :set_certificate, only: %i[ show edit update destroy ]
-
-  # GET /certificates or /certificates.json
-  def index
-    @certificates = Certificate.all
-  end
+  before_action :authenticate_user!
+  before_action :set_course
+  before_action :set_certificate, only: [:show]
 
   # GET /certificates/1 or /certificates/1.json
+   
   def show
+      @student = Student.find_by(id: params[:student_id]) # Adjust if needed
+    respond_to do |format|
+      format.html
+      format.pdf do
+        WickedPdf.config = { exe_path: '/home/ror/.rvm/gems/ruby-3.2.1/bin/wkhtmltopdf' }
+
+        pdf = render_to_string pdf: "certificate",
+                               template: "certificates/show",
+                               formats: [:html]
+
+        send_data pdf, filename: "certificate.pdf", type: "application/pdf", disposition: "inline"
+      end
+    end
   end
+
+
+
+
+
+
+
+
 
   # GET /certificates/new
   def new
+    @course = Course.find(params[:course_id])
     @certificate = Certificate.new
   end
 
   # GET /certificates/1/edit
   def edit
   end
+
   # POST /certificates or /certificates.json
   def create
     @certificate = Certificate.new(certificate_params)
@@ -57,10 +78,15 @@ class CertificatesController < ApplicationController
   end
 
   private
+
     # Use callbacks to share common setup or constraints between actions.
-    def set_certificate
+   def set_course
+     @course = Course.find(params[:course_id])
+   end
+
+     def set_certificate
       @certificate = Certificate.find(params[:id])
-    end
+     end
 
     # Only allow a list of trusted parameters through.
     def certificate_params

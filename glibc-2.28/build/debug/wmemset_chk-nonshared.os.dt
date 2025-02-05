@@ -1,0 +1,17 @@
+/home/ror/Umair/Learnify-ror-/glibc-2.28/build/debug/wmemset_chk-nonshared.os: \
+ ../sysdeps/x86_64/multiarch/wmemset_chk-nonshared.S \
+ ../include/stdc-predef.h \
+ /home/ror/Umair/Learnify-ror-/glibc-2.28/build/libc-modules.h \
+ ../include/libc-symbols.h \
+ /home/ror/Umair/Learnify-ror-/glibc-2.28/build/config.h \
+ ../sysdeps/generic/symbol-hacks.h
+
+../include/stdc-predef.h:
+
+/home/ror/Umair/Learnify-ror-/glibc-2.28/build/libc-modules.h:
+
+../include/libc-symbols.h:
+
+/home/ror/Umair/Learnify-ror-/glibc-2.28/build/config.h:
+
+../sysdeps/generic/symbol-hacks.h:
