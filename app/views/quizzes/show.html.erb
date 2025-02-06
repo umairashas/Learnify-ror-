@@ -14,8 +14,28 @@
 
 <p><strong>Course:</strong> <%= @quiz.course.title if @quiz.course.present? %></p>
 
-<%= link_to "Edit Quiz", edit_course_quiz_path(@quiz.course, @quiz), class: "btn btn-primary" %>
-<%= link_to "Back to Course", course_path(@quiz.course), class: "btn btn-secondary" %>
-<%= button_to "Delete Quiz", course_quiz_path(@quiz.course, @quiz), method: :delete, data: { confirm: "Are you sure?" }, class: "btn btn-danger" %>
 
-<%= link_to "Show All Quizzes", course_quizzes_path(@quiz.course), class: "btn btn-info" %>
+<%= link_to "Back to Quizzes", course_quizzes_path(@quiz.course), class: "btn back-btn" %>
+<style>
+  .back-btn {
+    padding: 10px 20px;
+    border-radius: 6px;
+    text-decoration: none;
+    font-weight: bold;
+    font-size: 16px;
+    margin-left: 510px;
+    text-align: center;
+    transition: all 0.3s ease-in-out;
+    cursor: pointer;
+    border: none;
+    outline: none;
+
+    background-color: #774EA2;
+    color: white;
+    border: 2px solid #774EA2;
+  }
+
+  .back-btn:hover {
+    background-color: #9b7dc6;
+  }
+</style>

@@ -64,16 +64,15 @@
 
 
   <div class="course-actions">
-    <% if current_user.teacher %>
+    <% if current_user.teacher? %>
       <%= link_to "Add Quiz for this course", new_course_quiz_path(teacher_id: @teacher, course_id: @course.id), class: "btn btn-quiz" %> |
       <%= link_to "Show all quiz", course_quizzes_path(@course), class: "btn btn-quiz" %>
       | <%= link_to "Edit this course", edit_course_path(@course), class: "btn btn-edit" %> |
-      <%= link_to "Back to courses", courses_path, class: "btn btn-back" %> |
-      <%= button_to "Destroy this course", @course, method: :delete, class: "btn btn-danger", data: { confirm: "Are you sure?" } %> 
-    <% else %>
-      <%= link_to "Back to courses", student_dashboard_path, class: "btn btn-back" %> 
+      <%= button_to "Destroy this course", @course, method: :delete, class: "btn btn-danger", data: { confirm: "Are you sure?" } %>  
+    
     <% end %>
-  </div>
+  </div><br>
+      <%= link_to "Back to courses", root_path, class: "btn back-btn" %> 
 
 <% if current_user.student? %>
   <% student_course = StudentCourse.find_by(student_id: current_user.student.id, course_id: @course.id) %>
@@ -96,7 +95,7 @@
         <% @certificate = Certificate.find_or_create_by(student_id: current_user.student.id, course_id: @course.id) %>
 
         <% if @certificate.persisted? %>
-          <%= link_to "Download Certificate", course_certificate_path(@course, @certificate, format: :pdf), class: "btn btn-success" %>
+          <%# <%= link_to "Download Certificate", course_certificate_path(@course, @certificate, format: :pdf), class: "btn btn-success" %> 
         <% else %>
           <p><strong>Your certificate is not ready yet.</strong></p>
         <% end %>
@@ -124,6 +123,8 @@
   width: 100%;
   max-width: 1000px;
   margin: 20px auto;
+  border-radius: 8px;
+  box-shadow: 0 8px 22px #667eea;
 }
 
 /* Course Title */
@@ -151,6 +152,8 @@
 .video-container {
   margin-bottom: 20px;
   text-align: center;
+ border-radius: 8px;
+  
 }
 
 /* Course Actions */
@@ -164,7 +167,7 @@
 
 /* Buttons */
 .btn {
-  background-color: #667eea;
+  background-color: #17a2b8;
   color: white;
   padding: 10px 20px;
   border: none;
@@ -177,26 +180,39 @@
 }
 
 .btn:hover {
-  background-color: #5645b5;
+  background-color: #5bc0de;
 }
 
 /* Edit Button */
 .btn-edit {
-  background-color: #4CAF50;
+  background-color: #ffc107;
 }
 
 .btn-edit:hover {
-  background-color: #45a049;
+  background-color: #e6a700;
 }
 
 /* Back Button */
-.btn-back {
-  background-color: #008CBA;
-}
+ .back-btn {
+    padding: 10px 20px;
+    border-radius: 6px;
+    text-decoration: none;
+    font-weight: bold;
+    font-size: 16px;
+    text-align: center;
+    margin-left: 400px;
+    transition: all 0.3s ease-in-out;
+    cursor: pointer;
+    border: none;
+    outline: none;
+    background-color: #774EA2;
+    color: white;
+    border: 2px solid #774EA2;
+  }
 
-.btn-back:hover {
-  background-color: #007bb5;
-}
+  .back-btn:hover {
+    background-color: #9b7dc6;
+  }
 
 /* Destroy Button */
 .btn-danger {
@@ -204,7 +220,7 @@
 }
 
 .btn-danger:hover {
-  background-color: #d32f2f;
+  background-color: #c82333;
 }
 
 </style>

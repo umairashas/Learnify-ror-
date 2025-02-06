@@ -9,7 +9,7 @@
 <br>
 
 <div>
-  <%= link_to "Back to courses", course_path(@course) %>
+  <%= link_to "Back to course", course_path(@course), class: "btn back-btn" %>
 </div>
 </div>
 <style>
@@ -19,4 +19,25 @@
     align-items: center;
     align-content: center;
   }
+  .back-btn {
+    padding: 10px 20px;
+    border-radius: 6px;
+    text-decoration: none;
+    font-weight: bold;
+    font-size: 16px;
+    text-align: center;
+    transition: all 0.3s ease-in-out;
+    cursor: pointer;
+    border: none;
+    outline: none;
+
+    background-color: #774EA2;
+    color: white;
+    border: 2px solid #774EA2;
+  }
+
+  .back-btn:hover {
+    background-color: #9b7dc6;
+  }
 </style>
+

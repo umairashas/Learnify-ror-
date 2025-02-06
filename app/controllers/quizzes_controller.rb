@@ -1,6 +1,7 @@
 class QuizzesController < ApplicationController
-before_action :set_quiz, only: %i[show edit update destroy attempt submit]
-before_action :set_course
+  before_action :set_quiz, only: %i[show edit update destroy attempt submit]
+  before_action :set_course
+
   # GET /quizzes
   def index
     if current_user.role == "teacher"
@@ -73,7 +74,7 @@ before_action :set_course
   def update
     respond_to do |format|
       if @quiz.update(quiz_params)
-        format.html { redirect_to @quiz, notice: "Quiz was successfully updated." }
+        format.html { redirect_to course_quizzes_path, notice: "Quiz was successfully updated." }
         format.json { render :show, status: :ok, location: @quiz }
       else
         format.html { render :edit, status: :unprocessable_entity }
@@ -92,70 +93,64 @@ before_action :set_course
     end
   end
 
-    def attempt
+  def attempt
        @course = @quiz.course# This action will render the quiz form for the student to attempt
-    end
+     end
 
    # In your QuizzesController
- def submit
-  @course = Course.find(params[:course_id])
-  total_questions = @course.quizzes.count
-  answers = 0
+   def submit
+    @course = Course.find(params[:course_id])
+    total_questions = @course.quizzes.count
+    answers = 0
 
-  student = current_user.student
-  student_course = StudentCourse.find_or_create_by(student_id: student.id, course_id: @course.id)
+    student = current_user.student
+    student_course = StudentCourse.find_or_create_by(student_id: student.id, course_id: @course.id)
 
-  # Ensure the student can take the quiz only once
-  if student.quiz_attempts.where(quiz_id: @course.quizzes.pluck(:id)).exists?
-    flash[:alert] = "You have already completed this quiz."
-    redirect_to course_path(@course) and return
-  end
-
-  # Process answers and calculate correct ones
-  @course.quizzes.each do |quiz|
-    answer = params["answer_#{quiz.id}"]
-
-    if answer.present?
-      QuizAttempt.create(student_id: student.id, quiz_id: quiz.id, answer: answer, score: (answer == quiz.answer ? 1 : 0))
-      answers += 1 if answer == quiz.answer
-    else
-      flash[:alert] = "You did not answer all the questions. Please try again."
-      redirect_to attempt_course_quiz_path(@course, quiz) and return
+    # Ensure the student can take the quiz only once
+    if student.quiz_attempts.where(quiz_id: @course.quizzes.pluck(:id)).exists?
+      flash[:alert] = "You have already completed this quiz."
+      redirect_to course_path(@course) and return
     end
+
+    # Process answers and calculate correct ones
+    @course.quizzes.each do |quiz|
+      answer = params["answer_#{quiz.id}"]
+
+      if answer.present?
+        QuizAttempt.create(student_id: student.id, quiz_id: quiz.id, answer: answer, score: (answer == quiz.answer ? 1 : 0))
+        answers += 1 if answer == quiz.answer
+      else
+        flash[:alert] = "You did not answer all the questions. Please try again."
+        redirect_to attempt_course_quiz_path(@course, quiz) and return
+      end
+    end
+
+    percentage_score = (answers.to_f / total_questions) * 100
+    flash[:notice] = "Quiz submitted successfully! Your score: #{answers}/#{total_questions} (#{percentage_score.round(2)}%)"
+
+    # Redirect back to the course page instead of generating the certificate
+    redirect_to course_path(@course)
   end
 
-  percentage_score = (answers.to_f / total_questions) * 100
-  flash[:notice] = "Quiz submitted successfully! Your score: #{answers}/#{total_questions} (#{percentage_score.round(2)}%)"
-
-  # Redirect back to the course page instead of generating the certificate
-  redirect_to course_path(@course)
-end
-
-
-
-
-
-   def quiz_statistics
+  def quiz_statistics
     @quizzes = @course.quizzes.includes(:quiz_attempts)
-    
+
     @student_attempts = QuizAttempt.joins(:quiz)
-                                   .where(quiz: @quizzes)
-                                   .group(:student_id)
-                                   .count
+    .where(quiz: @quizzes)
+    .group(:student_id)
+    .count
 
     @students_passed = QuizAttempt.joins(:quiz)
-                                  .where(quiz: @quizzes)
-                                  .where("quiz_attempts.answer = quizzes.answer")
-                                  .group(:student_id)
-                                  .count
+    .where(quiz: @quizzes)
+    .where("quiz_attempts.answer = quizzes.answer")
+    .group(:student_id)
+    .count
   end
 
-
-   
   private
 
   def set_quiz
-    @quiz = Quiz.find(params[:id])
+    @quiz = Quiz.find_by(id: params[:id])
   end
 
   def set_course

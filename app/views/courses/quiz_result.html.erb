@@ -1,5 +1,126 @@
-<h1>Quiz Result</h1>
-<p>Your score: <%= @quiz_result[:answers] %> / <%= @quiz_result[:total_questions] %> 
-   (<%= @quiz_result[:percentage_score].round(2) %>%)</p>
+<div class="quiz-container">
+    <h1 class="quiz-title">🎉 Quiz Result 🎉</h1>
+    <p class="quiz-score">
+        Your Score: <strong><%= @quiz_result[:answers] %> / <%= @quiz_result[:total_questions] %></strong>  
+        (<strong><%= @quiz_result[:percentage_score].round(2) %>%</strong>)
+    </p>
+    <p class="quiz-message">
+        <% if @quiz_result[:percentage_score] >= 80 %>
+            🎯 <span class="highlight">Excellent work! You nailed it! 🚀</span>
+        <% elsif @quiz_result[:percentage_score] >= 50 %>
+            👍 <span class="highlight">Good job! Keep practicing! 📚</span>
+        <% else %>
+            💡 <span class="highlight">Don't worry! Try again and improve! 🔥</span>
+        <% end %>
+    </p>
 
-<%= link_to "Back to Course", course_path(@course), class: "btn btn-secondary" %>
+    <div class="quiz-actions">
+        <% if @quiz_result[:percentage_score] > 60 %>
+            <% if QuizAttempt.where(student_id: current_user.student.id, quiz_id: @course.quizzes.ids).count == @course.quizzes.count %>
+                <% @certificate = Certificate.find_or_create_by(student_id: current_user.student.id, course_id: @course.id) %>
+                
+                <% if @certificate.persisted? %>
+                    <%= link_to "🎓 Download Certificate", course_certificate_path(@course, @certificate, format: :pdf), class: "btn btn-success" %>
+                <% else %>
+                    <p><strong>Your certificate is not ready yet.</strong></p>
+                <% end %>
+            <% end %>
+        <% else %>
+            <!-- Reset quiz attempts for retry -->
+            <% QuizAttempt.where(student_id: current_user.student.id, quiz_id: @course.quizzes.ids).destroy_all %>
+            <%= link_to "🔄 Restart Quiz", course_path(@course), class: "btn btn-warning" %>
+        <% end %>
+
+        <%= link_to "🔙 Back to Course", course_path(@course), class: "btn back-btn" %>
+    </div>
+</div>
+
+<style>
+  .quiz-container {
+    max-width: 600px;
+    margin: 50px auto;
+    padding: 25px;
+    text-align: center;
+    border-radius: 10px;
+    background: linear-gradient(135deg, #6a11cb, #2575fc);
+    box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.2);
+    color: white;
+  }
+
+  .quiz-title {
+    font-size: 30px;
+    font-weight: bold;
+    margin-bottom: 15px;
+  }
+
+  .quiz-score {
+    font-size: 22px;
+    font-weight: bold;
+    margin-bottom: 10px;
+  }
+
+  .quiz-message {
+    font-size: 18px;
+    font-style: italic;
+    margin-bottom: 20px;
+  }
+
+  .highlight {
+    font-weight: bold;
+    color: #ffeb3b;
+  }
+
+  .quiz-actions {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    flex-wrap: wrap;
+  }
+
+  .btn {
+    display: inline-block;
+    padding: 12px 22px;
+    border-radius: 8px;
+    font-size: 16px;
+    font-weight: bold;
+    text-align: center;
+    text-decoration: none;
+    cursor: pointer;
+    border: none;
+    outline: none;
+    transition: all 0.3s ease-in-out;
+  }
+
+  .btn-success {
+    background-color: #28a745;
+    color: white;
+    border: 2px solid #28a745;
+  }
+
+  .btn-success:hover {
+    background-color: #218838;
+    transform: scale(1.05);
+  }
+
+  .btn-warning {
+    background-color: #ffc107;
+    color: black;
+    border: 2px solid #ffc107;
+  }
+
+  .btn-warning:hover {
+    background-color: #e0a800;
+    transform: scale(1.05);
+  }
+
+  .back-btn {
+    background-color: #774EA2;
+    color: white;
+    border: 2px solid #774EA2;
+  }
+
+  .back-btn:hover {
+    background-color: #9b7dc6;
+    transform: scale(1.05);
+  }
+</style>

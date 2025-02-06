@@ -11,16 +11,17 @@
             <%= link_to "Add Course", new_course_path(teacher_id: current_user.id), class: 'btn btn-primary' %>
             <%= link_to "View All Courses", courses_path, class: 'btn btn-secondary' %>
           </div>
-         <div class="course-list">
-  <% @courses.each do |course| %>
-    <div class="course-item">
-      <span class="course-title"><%= course.title %></span>
-      <%= link_to "View Students", enrolled_students_course_path(course), class: 'btn btn-small' %>
-      <%= link_to "View Quiz Statistics", quiz_statistics_course_quizzes_path(course), class: "btn btn-info" %>
-    </div>
-  <% end %>
-</div>
-
+          <div class="course-list">
+            <% @courses.each do |course| %>
+              <div class="course-item">
+                <span class="course-title"><%= course.title %></span>
+                <div class="course-actions">
+                  <%= link_to "View Students", enrolled_students_course_path(course), class: 'btn btn-small btn-info' %>
+                  <%= link_to "Quiz Statistics", quiz_statistics_course_quizzes_path(course), class: 'btn btn-small btn-warning' %>
+                </div>
+              </div>
+            <% end %>
+          </div>
         </div>
       <% elsif current_user.role == 'student' %>
         <!-- Student Dashboard -->
@@ -35,7 +36,7 @@
               <% @enrolled_courses.each do |course| %>
                 <div class="course-item">
                   <span class="course-title"><%= course.title %></span>
-                  <%= link_to "View Course", course_path(course), class: 'btn btn-small' %>
+                  <%= link_to "View Course", course_path(course), class: 'btn btn btn-small btn-info' %>
                 </div>
               <% end %>
             <% else %>
@@ -65,7 +66,6 @@
 <% end %>
 
 <style>
-
 /* General Styles */
 body {
   font-family: 'Arial', sans-serif;
@@ -123,17 +123,31 @@ a {
 }
 
 .course-item {
-  background: #f9f9f9;
+  background: #ffffff;
   padding: 15px;
   border-radius: 8px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 8px 22px #667eea;
   display: flex;
+  flex-direction: column;
+  gap: 10px;
   justify-content: space-between;
   align-items: center;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.course-item:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 22px #667eea;
 }
 
 .course-title {
   font-weight: bold;
+  font-size: 1.1em;
+}
+
+.course-actions {
+  display: flex;
+  gap: 10px;
 }
 
 .btn {
@@ -149,12 +163,48 @@ a {
 }
 
 .btn-primary {
-  background: #2575fc;
+  background: #9353d3;
   color: white;
 }
 
 .btn-secondary {
-  background: #6a11cb;
+  background: #9353d3;
+  color: white;
+}
+
+.btn-small {
+  padding: 8px 12px;
+  font-size: 12px;
+  border-radius: 6px;
+  font-weight: bold;
+  transition: all 0.3s ease-in-out;
+  border: none;
+  cursor: pointer;
+}
+
+.btn-info {
+  background-color: #1491a1 !important;
+  border: 1px solid #1e63e9 !important;
+  color: white !important;
+}
+
+.btn-warning {
+  background-color: #1491a1 !important;
+  border: 1px solid #1e63e9 !important;
+  color: white !important;
+}
+
+.btn-info:hover {
+  background-color: #1491a1 !important;
+}
+
+.btn-warning:hover {
+  background-color: #1491a1 !important;
+}
+
+
+.btn-success {
+  background: #28a745;
   color: white;
 }
 
@@ -221,7 +271,6 @@ a {
   margin: 10px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
-
 
 @keyframes slide {
   0% { transform: translateX(0); }

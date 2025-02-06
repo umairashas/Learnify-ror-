@@ -3,9 +3,33 @@
 <h1>Editing quiz</h1>
 
 <%= render "form", quiz: @quiz %>
+<%= link_to "Back to Quizzes", course_quizzes_path(@quiz.course), class: "btn back-btn" %>
+<style>
+  h1{
+    margin-top: 100px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .back-btn {
+    padding: 10px 20px;
+    border-radius: 6px;
+    text-decoration: none;
+    font-weight: bold;
+    font-size: 16px;
+    margin-left: 510px;
+    text-align: center;
+    transition: all 0.3s ease-in-out;
+    cursor: pointer;
+    border: none;
+    outline: none;
+    background-color: #774EA2;
+    color: white;
+    border: 2px solid #774EA2;
+  }
 
-<br>
+  .back-btn:hover {
+    background-color: #9b7dc6;
+  }
+</style>
 
-<div>
-  <%# <%= link_to "Back to quizzes", quizzes_path %> 
-</div>

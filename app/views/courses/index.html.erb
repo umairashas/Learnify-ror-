@@ -24,7 +24,7 @@
     </div>
   <% end %>
       <% if current_user.role == 'teacher' %>
-          <%= link_to "Back to courses", root_path, class: "btn btn-secondary" %> 
+          <%= link_to "Back", root_path, class: "btn back-btn" %> 
       <% end %>
 </div>
 
@@ -34,6 +34,7 @@
 
 <style>/* General */
 /* General Layout for Courses Grid */
+
 .course-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); /* Dynamic grid with a minimum of 250px per column */
@@ -155,6 +156,28 @@
   color: #333;
 }
 
+  .back-btn {
+    padding: 10px 20px;
+    border-radius: 6px;
+    width: 150px;
+    text-decoration: none;
+    font-weight: bold;
+    font-size: 16px;
+    text-align: center;
+    transition: all 0.3s ease-in-out;
+    cursor: pointer;
+    border: none;
+    outline: none;
+    margin-left: 500px;
+
+    background-color: #774EA2;
+    color: white;
+    border: 2px solid #774EA2;
+  }
+
+  .back-btn:hover {
+    background-color: #9b7dc6;
+  }
 
 </style>
 <script>

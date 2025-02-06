@@ -20,7 +20,10 @@
             <td>
               <%= link_to "Show", course_quiz_path(@course, quiz), class: "btn btn-info" %>
               <%= link_to "Edit", edit_course_quiz_path(@course, quiz), class: "btn btn-warning" %>
-              <%= button_to "Delete", course_quiz_path(@course, quiz), method: :delete, data: { confirm: "Are you sure?" }, class: "btn btn-danger" %>
+              <%= link_to "Delete", course_quiz_path(@course, quiz), data: {
+                    turbo_method: :delete,
+                    turbo_confirm: "Are you sure?"
+                  }, class: "btn btn-danger" %>
             </td>
           </tr>
         <% end %>
@@ -31,5 +34,47 @@
   <p>No quizzes available for this course.</p>
 <% end %>
 
-<%= link_to "Add New Quiz", new_course_quiz_path(@course), class: "btn btn-success" %>
-<%= link_to "Back to Course", course_path(@course), class: "btn btn-primary" %>
+<%# <%= link_to "Add New Quiz", new_course_quiz_path(@course), class: "btn btn-success" %> 
+<%= link_to "Back to Course", course_path(@course), class: "btn back-btn" %>
+<style>
+  .back-btn {
+    padding: 10px 20px;
+    border-radius: 6px;
+    text-decoration: none;
+    font-weight: bold;
+    font-size: 16px;
+    margin-left: 500px;
+    text-align: center;
+    transition: all 0.3s ease-in-out;
+    cursor: pointer;
+    border: none;
+    outline: none;
+
+    background-color: #774EA2;
+    color: white;
+    border: 2px solid #774EA2;
+  }
+
+  .back-btn:hover {
+    background-color: #9b7dc6;
+  }
+.btn-info{
+  background-color: #17a2b8;
+}
+.btn-info:hover{
+  background-color: #5bc0de;
+}
+.btn-warning{
+  background-color: #ffc107;
+}
+.btn-warning:hover{
+  background-color:  #e6a700;
+}
+.btn-danger{
+  background-color: #f44336;
+}
+.btn-danger:hover{
+  background-color: #c82333;
+}
+
+</style>

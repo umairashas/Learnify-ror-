@@ -6,6 +6,7 @@ class CertificatesController < ApplicationController
   # GET /certificates/1 or /certificates/1.json
    
   def show
+    return if !current_user.student.present?
     @course = Course.find(params[:course_id])
     @certificate = Certificate.find_by(student_id: current_user.student.id, course_id: @course.id)
     @student = Student.find_by(id: params[:student_id]) # Adjust if needed

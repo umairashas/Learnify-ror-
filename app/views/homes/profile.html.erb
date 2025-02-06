@@ -1,174 +1,205 @@
-<!-- app/views/home/profile.html.erb -->
 <!DOCTYPE html>
 <html>
 <head>
+  <title>User Profile</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+  <style>
+    /* General Styles */
+    body {
+      font-family: 'Arial', sans-serif;
+      background-color: #f4f4f9;
+      margin: 0;
+      padding: 0;
+    }
+
+    /* Heading Style */
+    h1 {
+      text-align: center;
+      color: #764ba2;
+      font-size: 2.5rem;
+      margin-top: 30px;
+    }
+
+    /* Profile Card */
+    .profile-card {
+      width: 80%;
+      margin: 40px auto;
+      background-color: #ffffff;
+      border-radius: 8px;
+      box-shadow: 0 4px 12px #667eea;
+      padding: 20px;
+      border: 1px solid #e0e0e0;
+    }
+
+    /* Table Styling */
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 20px;
+    }
+
+    th, td {
+      padding: 15px;
+      text-align: left;
+      border-bottom: 1px solid #ddd;
+    }
+
+    th {
+      background-color: #667eea;
+      color: white;
+      font-size: 1.2rem;
+    }
+
+    tr:hover {
+      background-color: #f9f9f9;
+    }
+
+    /* Buttons */
+    .btn {
+      display: block;
+      width: 200px;
+      margin: 30px auto;
+      padding: 12px;
+      text-align: center;
+      background-color: #764ba2;
+      color: white;
+      text-decoration: none;
+      border-radius: 5px;
+      font-size: 1.2rem;
+      transition: background-color 0.3s;
+    }
+
+    .btn:hover {
+      background-color: #9b7dc6;
+    }
+
+    /* Student Table */
+    .student-table {
+      width: 100%;
+      margin-top: 20px;
+      border-collapse: collapse;
+    }
+
+    .student-table th, .student-table td {
+      padding: 10px;
+      text-align: left;
+      border: 1px solid #ddd;
+    }
+
+    .student-table th {
+      background-color: #667eea;
+      color: white;
+      font-size: 1.1rem;
+    }
+
+    .student-table tr:nth-child(even) {
+      background-color: #f9f9f9;
+    }
+
+    .student-table tr:hover {
+      background-color: #f1f1f1;
+    }
+
+    /* Centered Heading for Students */
+    h2 {
+      text-align: center;
+      color: #764ba2;
+      font-size: 2.3rem;
+      margin-top: 20px;
+      margin-bottom: 10px;
+    }
+
+    p {
+      text-align: center;
+      color: #666;
+      font-size: 1.2rem;
+      margin-top: 20px;
+    }
+
+    /* Responsive Design */
+    @media (max-width: 768px) {
+      .profile-card {
+        width: 95%;
+      }
+
+      h1 {
+        font-size: 2rem;
+      }
+
+      .btn {
+        width: 100%;
+      }
+    }
+  </style>
 </head>
 <body>
 
-<h1>User Profile</h1>
+<div class="profile-card">
+  <h1>User Profile</h1>
 
-<table>
-  <tr>
-    <th>Name</th>
-    <td><%= @user.name %></td>
-  </tr>
-  <tr>
-    <th>Email</th>
-    <td><%= @user.email %></td>
-  </tr>
-  <tr>
-    <th>Phone Number</th>
-    <td><%= @user.phone_number %></td>
-  </tr>
-  <tr>
-    <th>Role</th>
-    <td><%= @user.role %></td>
-  </tr>
-
-  <% if current_user.teacher.present? %>
+  <table>
     <tr>
-      <th>Total Courses Added</th>
-      <td><%= current_user.teacher.courses.count %></td>
+      <th>Name</th>
+      <td><%= @user.name %></td>
     </tr>
     <tr>
-      <th>Total Quiz Added</th>
-      <td><%= current_user.teacher.quizzes.count %></td>
+      <th>Email</th>
+      <td><%= @user.email %></td>
     </tr>
-    <h2>Students</h2>
+    <tr>
+      <th>Phone Number</th>
+      <td><%= @user.phone_number %></td>
+    </tr>
+    <tr>
+      <th>Role</th>
+      <td><%= @user.role %></td>
+    </tr>
 
-    <% if @unique_students.any? %>
-      <table class="student-table">
-        <thead>
-          <tr>
-            <th>Student Name</th>
-            <th>Email</th>
-            <th>Courses Enrolled</th>
-          </tr>
-        </thead>
-        <tbody>
-          <% @unique_students.each do |student| %>
+    <% if current_user.teacher.present? %>
+      <tr>
+        <th>Total Courses Added</th>
+        <td><%= current_user.teacher.courses.count %></td>
+      </tr>
+      <tr>
+        <th>Total Quizzes Added</th>
+        <td><%= current_user.teacher.quizzes.count %></td>
+      </tr>
+
+      <% if @unique_students.any? %>
+        <table class="student-table">
+          <thead><br> 
+            <h2>Student Details</h2>
             <tr>
-              <td><%= student.name %></td>
-              <td><%= student.email %></td>
-              <td><%= student.course_count %></td>
+              <th>Student Name</th>
+              <th>Email</th>
+              <th>Courses Enrolled</th>
             </tr>
-          <% end %>
-        </tbody>
-      </table>
-    <% else %>
-      <p>No students found.</p>
+          </thead>
+          <tbody>
+            <% @unique_students.each do |student| %>
+              <tr>
+                <td><%= student.name %></td>
+                <td><%= student.email %></td>
+                <td><%= student.course_count %></td>
+              </tr>
+            <% end %>
+          </tbody>
+        </table>
+      <% else %>
+        <p>No students found.</p>
+      <% end %>
     <% end %>
-  <% end %>
 
-  <% if current_user.student? %>
-    <tr>
-      <th>Courses Enrolled</th>
-      <td><%= current_user.student.courses.count %></td>
-    </tr>
-    
-  <% end %>
-</table>
+    <% if current_user.student? %>
+      <tr>
+        <th>Courses Enrolled</th>
+        <td><%= current_user.student.courses.count %></td>
+      </tr>
+    <% end %>
+  </table>
 
-<%= link_to "Edit Profile", edit_user_registration_path, class: "btn" %>
+  <%= link_to "Edit Profile", edit_user_registration_path, class: "btn" %>
+</div>
 
 </body>
 </html>
-
-<style>
-/* Reset margins and padding for the body */
-body {
-  font-family: 'Arial', sans-serif;
-  background-color: #f9f9f9;
-  margin: 0;
-  padding: 0;
-}
-
-/* Heading Style */
-h1 {
-  text-align: center;
-  color: #333;
-  font-size: 2.5rem;
-  margin-top: 30px;
-}
-
-/* Table Styling */
-table {
-  width: 80%;
-  margin: 40px auto;
-  border-collapse: collapse;
-  background-color: #ffffff;
-  border-radius: 8px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-}
-
-th, td {
-  padding: 15px;
-  text-align: left;
-  border-bottom: 1px solid #ddd;
-}
-
-th {
-  background-color: #f2f2f2;
-  color: #333;
-  font-size: 1.2rem;
-}
-
-tr:hover {
-  background-color: #f9f9f9;
-}
-
-/* Buttons */
-.btn {
-  display: block;
-  width: 200px;
-  margin: 30px auto;
-  padding: 12px;
-  text-align: center;
-  background-color: #4CAF50;
-  color: white;
-  text-decoration: none;
-  border-radius: 5px;
-  font-size: 1.2rem;
-}
-
-.btn:hover {
-  background-color: #45a049;
-}
-
-/* Table for Students */
-.student-table {
-  width: 90%;
-  margin: 20px auto;
-  border-collapse: collapse;
-}
-
-.student-table th, .student-table td {
-  padding: 10px;
-  text-align: left;
-  border: 1px solid #ddd;
-}
-
-.student-table th {
-  background-color: #f2f2f2;
-  font-size: 1.1rem;
-}
-
-.student-table tr:nth-child(even) {
-  background-color: #f9f9f9;
-}
-
-.student-table tr:hover {
-  background-color: #f1f1f1;
-}
-
-p {
-  text-align: center;
-  color: #666;
-  font-size: 1.2rem;
-  margin-top: 20px;
-}
-</style>
-
-
-
-

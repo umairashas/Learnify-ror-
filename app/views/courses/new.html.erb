@@ -8,11 +8,34 @@
 <br>
 
 <div>
-  <%= link_to "Back to courses", courses_path %>
+  <%= link_to "Back", root_path, class: "btn back-btn" %> 
 </div>
 </div>
 <style>
+  .back-btn {
+    padding: 10px 20px;
+    border-radius: 6px;
+    width: 100px;
+    text-decoration: none;
+    font-weight: bold;
+    font-size: 16px;
+    text-align: center;
+    transition: all 0.3s ease-in-out;
+    cursor: pointer;
+    border: none;
+    outline: none;
+
+    background-color: #774EA2;
+    color: white;
+    border: 2px solid #774EA2;
+  }
+
+  .back-btn:hover {
+    background-color: #9b7dc6;
+  }
   .container{
+    margin-top: -30px;
+    margin-bottom: 20px;
     display: flex;
     flex-direction: column;
     align-items: center;
