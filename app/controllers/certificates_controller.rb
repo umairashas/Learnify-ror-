@@ -16,13 +16,46 @@ class CertificatesController < ApplicationController
         WickedPdf.config = { exe_path: '/home/ror/.rvm/gems/ruby-3.2.1/bin/wkhtmltopdf' }
 
         pdf = render_to_string pdf: "certificate",
-                               template: "certificates/show",
-                               formats: [:html]
+                               template: "certificates/show", # Your certificate view
+                               layout: 'pdf', # If using a separate PDF layout
+                               disposition: "attachment",
+                               encoding: "UTF-8"
+
+
+        # pdf = render_to_string pdf: "certificate",
+        #                        template: "certificates/show",
+        #                        formats: [:html]
 
         send_data pdf, filename: "certificate.pdf", type: "application/pdf", disposition: "attachment"
       end
     end
   end
+
+  # def show
+  #   return unless current_user.student.present?
+
+  #   @course = Course.find(params[:course_id])
+  #   @certificate = Certificate.find_by(student_id: current_user.student.id, course_id: @course.id)
+  #   @student = Student.find_by(id: params[:student_id])
+
+  #   respond_to do |format|
+  #     format.html
+  #     format.pdf do
+  #       WickedPdf.config = { exe_path: '/home/ror/.rvm/gems/ruby-3.2.1/bin/wkhtmltopdf' } # Adjust if needed
+
+  #       pdf = render_to_string pdf: "certificate",
+  #                              template: "certificates/show",
+  #                              layout: 'pdf',
+  #                              disposition: "attachment"
+  #                              encoding: "UTF-8",
+  #                              locals: { asset_host: request.base_url } # Ensures URL-based assets load
+
+  #       send_data pdf, filename: "certificate.pdf", type: "application/pdf", disposition: "attachment"
+  #     end
+  #   end
+  # end
+
+
 
   # GET /certificates/new
   def new

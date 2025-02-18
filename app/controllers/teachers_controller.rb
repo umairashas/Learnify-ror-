@@ -1,7 +1,10 @@
 class TeachersController < ApplicationController
+  before_action :authenticate_user!
+  load_and_authorize_resource
+  before_action :check_teacher, except: [:index, :show]
   before_action :set_teacher, only: %i[ show edit update destroy ]
+  skip_authorize_resource only: :teacher_dashboard
 
-  # GET /teachers or /teachers.json
   def index
     @teachers = Teacher.all
     @courses = Course.all
@@ -58,10 +61,21 @@ class TeachersController < ApplicationController
     end
   end
 
+  def teacher_dashboard
+    authorize! :read, :teacher_dashboard 
+    @user = current_user
+    @courses = Course.all
+  end
+
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_teacher
       @teacher = Teacher.find(params[:id])
+    end
+    
+
+    def check_teacher
+      redirect_to root_path, alert: "Access denied!" unless current_user.teacher?
     end
 
     # Only allow a list of trusted parameters through.

@@ -4,52 +4,44 @@
 
 <h1 class="courses-heading">Courses</h1>
 
-<div id="courses" class="course-grid">
-  <% @courses.each_with_index do |course, index| %>
-    <div class="course-item" data-url="<%= course_path(course) %>">
-      <span class="course-number"><%= index + 1 %>.</span>
-      <span class="course-title"><%= course.title %></span>
-
-      <% if current_user.role == 'student' %>
-        <% if current_user.student.courses.include?(course) %>
-          <!-- Display the video player if the student is enrolled -->
-          <%= video_tag url_for(course.video), controls: true if course.video.attached? %>
-        <% else %>
-          <!-- Message for non-enrolled students and the Enroll button -->
-          <p>You are not enrolled in this course.</p>
-          <%= button_to "Enroll", enroll_course_path(course), method: :post, class: "btn btn-primary enroll-btn" %>
+<turbo-frame id="course-content">
+  <div id="courses" class="course-grid">
+    <% @courses.each_with_index do |course, index| %>
+      <div class="course-item" data-url="<%= course_path(course) %>">
+        <span class="course-number"><%= index + 1 %>.</span>
+        <span class="course-title"><%= course.title %></span>
+        <% if current_user.role == 'student' %>
+          <% if current_user.student.courses.include?(course) %>
+            <%= video_tag url_for(course.video), controls: true if course.video.attached? %>
+          <% else %>
+            <p>You are not enrolled in this course.</p>
+            <%= button_to "Enroll", enroll_course_path(course), method: :post, class: "btn btn-primary enroll-btn" %>
+          <% end %>
         <% end %>
-      <% end %>
-
-    </div>
-  <% end %>
-      <% if current_user.role == 'teacher' %>
-          <%= link_to "Back", root_path, class: "btn back-btn" %> 
-      <% end %>
-</div>
+      </div>
+    <% end %>
+  </div>
+</turbo-frame>
 
 
+<% if current_user.role == 'teacher' %>
+  <%= link_to "Back", teacher_dashboard_path, class: "btn back-btn" %>
+<% end %>
 
-
-
-<style>/* General */
-/* General Layout for Courses Grid */
-
+<style>
 .course-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); /* Dynamic grid with a minimum of 250px per column */
-  gap: 40px; /* Space between course items */
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: 40px;
   padding: 20px;
 }
 
-/* Course Item Box Styling */
-/* Course item */
 .course-item {
   cursor: pointer;
   padding: 15px 20px;
   width: 300px;
   border-radius: 12px;
-  background: rgba(255, 255, 255, 0.15); /* Glass effect */
+  background: rgba(255, 255, 255, 0.15);
   backdrop-filter: blur(10px);
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
   display: flex;
@@ -58,21 +50,18 @@
   transition: all 0.3s ease-in-out;
 }
 
-/* Hover effect */
 .course-item:hover {
   background: #667EEA;
   transform: scale(1.05);
   box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
 }
 
-/* Course number */
 .course-number {
   font-weight: bold;
   font-size: 20px;
-  color: #black;
+  color: #000;
 }
 
-/* Course title */
 .course-title {
   font-size: 18px;
   font-weight: bold;
@@ -80,26 +69,6 @@
   transition: color 0.3s ease-in-out;
 }
 
-
-.course-item {
-  cursor: pointer;
-  background-color: #f4f4f4;
-  border-radius: 8px;
-  padding: 15px;
-  display: flex;
-  gap: 10px;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-  text-align: center; /* Center content in the box */
-  transition: transform 0.3s, box-shadow 0.3s;
-}
-
-/* Hover Effect for Course Item */
-.course-item:hover {
-  transform: translateY(-5px); /* Slight lift effect */
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
-}
-
-/* Heading */
 .courses-heading {
   font-size: 28px;
   font-weight: bold;
@@ -108,83 +77,41 @@
   margin-bottom: 30px;
 }
 
-/* Add Course Button */
-.add-course-btn {
-  background-color: #667eea;
-  color: white;
+.back-btn {
   padding: 10px 20px;
-  border-radius: 5px;
+  border-radius: 6px;
+  width: 150px;
   text-decoration: none;
+  font-weight: bold;
   font-size: 16px;
-  cursor: pointer;
-  margin-bottom: 20px;
-  display: block;
-  max-width: 200px;
-  margin-left: auto;
-  margin-right: auto;
-}
-
-.add-course-btn:hover {
-  background-color: #5645b5;
-}
-
-/* Alert Message */
-.alert-message {
-  color: #f44336;
   text-align: center;
-  font-weight: bold;
-  margin-top: 20px;
+  transition: all 0.3s ease-in-out;
+  cursor: pointer;
+  border: none;
+  outline: none;
+  margin: 20px auto;
+  display: block;
+  background-color: #774EA2;
+  color: white;
+  border: 2px solid #774EA2;
 }
 
-/* Course Link */
-.course-link {
-  text-decoration: none;
-  font-size: 18px;
-  color: #667eea;
-  font-weight: 600;
-  transition: 0.3s;
+.back-btn:hover {
+  background-color: #9b7dc6;
 }
-
-.course-link:hover {
-  color: #5645b5;
-}
-
-/* Numbering */
-.course-item strong {
-  font-size: 18px;
-  font-weight: bold;
-  color: #333;
-}
-
-  .back-btn {
-    padding: 10px 20px;
-    border-radius: 6px;
-    width: 150px;
-    text-decoration: none;
-    font-weight: bold;
-    font-size: 16px;
-    text-align: center;
-    transition: all 0.3s ease-in-out;
-    cursor: pointer;
-    border: none;
-    outline: none;
-    margin-left: 500px;
-
-    background-color: #774EA2;
-    color: white;
-    border: 2px solid #774EA2;
-  }
-
-  .back-btn:hover {
-    background-color: #9b7dc6;
-  }
-
 </style>
+
 <script>
-  document.addEventListener("DOMContentLoaded", function () {
+document.addEventListener("DOMContentLoaded", function () {
   document.querySelectorAll(".course-item").forEach(function (course) {
-    course.addEventListener("click", function () {
-      window.location.href = this.getAttribute("data-url");
+    course.addEventListener("click", function (event) {
+      if (!event.target.closest(".enroll-btn")) {
+        event.preventDefault();
+
+        let courseUrl = this.getAttribute("data-url");
+
+        Turbo.visit(courseUrl);
+      }
     });
   });
 });

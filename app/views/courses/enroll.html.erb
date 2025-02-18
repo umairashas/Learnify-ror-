@@ -1,6 +1,6 @@
 <!-- app/views/courses/enroll.html.erb -->
 <div class="dashboard">
-  <h1>Enroll in Courses</h1>
+  <h1>Enroll in Available Courses</h1>
 
     <% if @courses.any? %>
       <div class="course-list">
@@ -12,10 +12,12 @@
             </div>
             
             <div class="course-actions">
+              <% if current_user.student %>
               <% if current_user.student.courses.include?(course) %>
                 <%= button_to "Unenroll", unenroll_course_path(course), method: :delete, class: 'btn unenroll-btn' %>
               <% else %>
                 <%= button_to "Enroll", enroll_in_course_path(course), method: :post, class: 'btn enroll-btn' %>
+              <% end %>
               <% end %>
             </div>
           </div>
@@ -23,9 +25,9 @@
       </div>
     <% else %>
       <p class="no-course">No courses available for enrollment.</p>
-    <% end %>
+    <% end %><br>
 
-    <%= link_to "Back to Dashboard", student_dashboard_path, class: 'btn back-btn' %>
+    <%= link_to "Back", student_dashboard_path, class: 'btn back-btn' %>
   </div>
 
 <style>
@@ -39,7 +41,7 @@
   .dashboard {
     text-align: center;
     padding: 40px;
-    background: #ffffff;
+      background: linear-gradient(135deg, #2575fc, #6a11cb);
     border-radius: 12px;
     margin: 50px auto;
     max-width: 800px;
@@ -103,6 +105,26 @@
     outline: none;
   }
 
+   .back-btn {
+    width: 100px;
+    border-radius: 6px;
+    text-decoration: none;
+    font-weight: bold;
+    font-size: 16px;
+    text-align: center;
+    transition: all 0.3s ease-in-out;
+    cursor: pointer;
+    border: none;
+    outline: none;
+    background-color: #774EA2;
+    color: white;
+    border: 2px solid #774EA2;
+  }
+
+  .back-btn:hover {
+    background-color: #9b7dc6;
+  }
+
   .enroll-btn {
     background-color: #2575fc;
     color: white;
@@ -119,17 +141,6 @@
 
   .unenroll-btn:hover {
     background-color: #cc0000;
-  }
-
-  .back-btn {
-    display: inline-block;
-    background-color: #f8d210;
-    color: black;
-    margin-top: 20px;
-  }
-
-  .back-btn:hover {
-    background-color: #d1b109;
   }
 
   .no-course {

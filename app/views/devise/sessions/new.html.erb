@@ -12,8 +12,6 @@
   </div>
 <% else %>
   <div class="home-container">
-  
-
     <div class="login-container">
       <h2>Log in</h2>
       <%= form_for(resource, as: resource_name, url: session_path(resource_name)) do |f| %>
@@ -28,7 +26,7 @@
         </div>
 
         <% if devise_mapping.rememberable? %>
-          <div class="field">
+          <div class="field1">
             <%= f.check_box :remember_me %>
             <%= f.label :remember_me %>
           </div>
@@ -111,6 +109,12 @@ body {
   font-weight: 600;
   margin-bottom: 5px;
   color: #333;
+}
+
+.field1{
+  display: flex;
+  gap: 10px;
+  margin-bottom: 30px;
 }
 
 .field input {

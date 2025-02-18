@@ -4,13 +4,11 @@ class ApplicationController < ActionController::Base
   protect_from_forgery with: :exception
 
   before_action :configure_permitted_parameters, if: :devise_controller?
-  def after_sign_in_path_for(resource)
-    if resource.is_a?(Teacher)
-      teacher_dashboard_path  # Redirect teachers to their dashboard
-    elsif resource.is_a?(Student)
-      student_dashboard_path  # Redirect students to their dashboard
-    else
-      root_path # Default redirection
+  
+
+  def create
+    super do |user|
+      Student.create!(name: user.name, email: user.email, phone_number: user.phone_number, user_id: user.id) if user.persisted?
     end
   end
 
